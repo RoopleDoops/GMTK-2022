@@ -10,8 +10,10 @@ shoot_cd = 15;
 shoot_speed = UNIT/8;
 
 // Drawing
-hand_distance = UNIT/4;
+hand_distance = UNIT*0.5;
 hand_sprite = s_Hand;
+hand_x = x;
+hand_y = y;
 
 // Input
 	key_left = 0;
@@ -31,7 +33,7 @@ get_input = function(){
 	move_vert = key_down - key_up;
 }
 
-check_shoot = function(){
+process_shoot = function(){
 	if (shoot_time > 0) shoot_time -=1;
 	else
 	{
@@ -41,37 +43,46 @@ check_shoot = function(){
 }
 
 shoot_bullet = function(){
-	var _cx = my_cursor.get_cursor_x();
-	var _cy = my_cursor.get_cursor_y();
 	var _speed = shoot_speed;
-	var _bullet = instance_create_depth(x,y,depth,o_Bullet);
+	var _dir = point_direction(BBOX_CENTER,BBOX_MIDDLE,hand_x,hand_y);
+	var _bullet = instance_create_depth(hand_x,hand_y,depth,o_Bullet);
 	with (_bullet)
 	{
-		var _dir = point_direction(x,y,_cx,_cy);
 		x_move = lengthdir_x(_speed,_dir);
 		y_move = lengthdir_y(_speed,_dir);
 	}
 }
 
 update_hand_position = function(){
-	
+	var _dir = point_direction(BBOX_CENTER,BBOX_MIDDLE,get_cursor_x(),get_cursor_y());
+	hand_x = floor(BBOX_CENTER+lengthdir_x(hand_distance,_dir));
+	hand_y = floor(BBOX_MIDDLE+lengthdir_y(hand_distance,_dir));
 }
 
 #region Create Cursor
 	my_cursor = instance_create_depth(mouse_x,mouse_y,DEPTH_CURSOR,o_Cursor);
 #endregion
 
+get_cursor_x = function(){
+	var _x = floor(my_cursor.x);
+	return _x;
+}
+
+get_cursor_y = function(){
+	var _y = floor(my_cursor.y);
+	return _y;
+}
+
 perform_step = function(){
 	get_input();
-	check_shoot();
 	
-	#region movement
+	#region Movement
 	x_move = lerp(x_move,move_hori*move_speed,move_accel);
 	y_move = lerp(y_move,move_vert*move_speed,move_accel);
 	
-	var _array = movement_calculate();
-	var _x_move = _array[AXIS.X];
-	var _y_move = _array[AXIS.Y];
+	var _move_array = movement_calculate();
+	var _x_move = _move_array[AXIS.X];
+	var _y_move = _move_array[AXIS.Y];
 	// Collision
 	// X
 		if (!place_meeting_tile_impassable(x+_x_move,y,LAYER_WALL_TILES))
@@ -99,5 +110,11 @@ perform_step = function(){
 			}
 			y_move = 0;
 		}
+	#endregion
+	
+	update_hand_position();
+	process_shoot();
+	#region Drawing
+		
 	#endregion
 }

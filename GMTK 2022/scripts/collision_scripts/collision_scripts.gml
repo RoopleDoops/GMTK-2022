@@ -165,7 +165,7 @@ _tile3 = undefined, _tile4 = undefined, _tile5 = undefined, _tile6 = undefined){
 	var _dir = point_direction(_x1,_y1,_x2,_y2);
 	var _dist = point_distance(_x1,_y1,_x2,_y2);
 	// Get size of the tiles--used for size of checks along line
-	var _size = tilemap_get_tile_width(_tilemap);
+	var _size = tilemap_get_tile_width(_tilemap)/2;
 	// Loop through line
 	for (var _i = 0; _i < _dist; _i += _size)
 	{
@@ -383,4 +383,22 @@ var _tindex = tile_get_index(_tdata);
 //var _tileset = tilemap_get_tileset(_tilemap);
 if (_tindex == 0) return true;
 #endregion
+}
+
+///@function	tilemap_check_tile()
+///@desc		Checks for tile at cell _cellx,_celly and returns true if found.
+///@param		tilemap
+///@param		cellx
+///@param		celly
+///@param		tile
+function tilemap_check_tile(_tilemap,_cellx,_celly,_tile){
+	#region
+	var _tdata = tilemap_get(_tilemap,_cellx,_celly);
+	var _tindex = tile_get_index(_tdata);
+	if (_tindex == _tile)
+	{
+		return true;
+	}
+	else return false;
+	#endregion
 }
