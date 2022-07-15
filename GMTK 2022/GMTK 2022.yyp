@@ -8,6 +8,7 @@
     {"id":{"name":"movement_scripts","path":"scripts/movement_scripts/movement_scripts.yy",},"order":3,},
     {"id":{"name":"p_Pause","path":"objects/p_Pause/p_Pause.yy",},"order":2,},
     {"id":{"name":"s_Hand","path":"sprites/s_Hand/s_Hand.yy",},"order":4,},
+    {"id":{"name":"easing_scripts","path":"scripts/easing_scripts/easing_scripts.yy",},"order":8,},
     {"id":{"name":"o_DebugManager","path":"objects/o_DebugManager/o_DebugManager.yy",},"order":0,},
     {"id":{"name":"math_scripts","path":"scripts/math_scripts/math_scripts.yy",},"order":2,},
     {"id":{"name":"o_Cursor","path":"objects/o_Cursor/o_Cursor.yy",},"order":3,},

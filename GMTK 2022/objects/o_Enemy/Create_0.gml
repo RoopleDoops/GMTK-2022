@@ -10,9 +10,37 @@ enum E_STATE
 
 movement_create();
 move_speed = UNIT/32;
-move_accel = 0.1;
+move_accel = 0.05;
 dir = 0;
 state = E_STATE.CHASE;
+hp = 6;
+
+hbox_lo = 0;
+hbox_ro = 0;
+hbox_to = 20;
+hbox_bo = 0;
+// Hitbox
+hbox_left = function(){
+	return bbox_left - hbox_lo;
+}
+
+hbox_right = function(){
+	return bbox_right + hbox_ro;
+}
+
+hbox_top = function(){
+	return bbox_top - hbox_to;	
+}
+
+hbox_bottom = function(){
+	return bbox_bottom + hbox_bo;	
+}
+
+// Recoil
+recoil_time_max = 60;
+recoil_time = recoil_time_max;
+
+// Pathing
 path = path_add();
 pathx = 0;
 pathy = 0;
@@ -23,7 +51,28 @@ path_drawy = 0;
 path_time = 0;
 path_time_max = 15;
 
-perform_step = function(){
+// Drawing
+scale_struct = scale_create();
+
+next_state = function(_state){
+#region
+	switch(_state)
+	{
+		case E_STATE.CHASE:
+			path_time = 0;
+			state = _state;
+		break;
+		case E_STATE.RECOIL:
+			squash_scale(scale_struct,0.8,1.2);
+			recoil_time = recoil_time_max;
+			state = _state;
+		break;
+	}
+#endregion
+}
+
+chase_step = function(){
+#region
 	// Pathfinding
 	if (path_time > 0) path_time -= 1;
 	if (instance_exists(o_Player))
@@ -73,11 +122,47 @@ perform_step = function(){
 	var _vy = lengthdir_y(move_speed,dir);
 	x_move = lerp(x_move,_vx,move_accel);
 	y_move = lerp(y_move,_vy,move_accel);
+#endregion
+}
+
+recoil_step = function(){
+	x_move = lerp(x_move,0,move_accel);
+	y_move = lerp(y_move,0,move_accel);
+	if (recoil_time > 0) recoil_time -=1;
+	else
+	{
+		next_state(E_STATE.CHASE);
+	}
+}
+
+health_change = function(_amount){
+	squash_scale(scale_struct,1.2,0.8);
+	hp += _amount;
+	hp = max(hp,0);
+	if (hp <= 0) enemy_destroy();	
+}
+
+enemy_destroy = function(){
+	instance_destroy();	
+}
+
+perform_step = function(){
+	
+	#region State Machine
+		switch (state)
+		{
+			case E_STATE.CHASE:chase_step();break;
+			case E_STATE.RECOIL:recoil_step();break;
+		}
+	#endregion
 	
 	var _move_array = movement_calculate();
 	var _x_move = _move_array[AXIS.X];
 	var _y_move = _move_array[AXIS.Y];
 	
+	// Pause if meeting another enemy
+	if (place_meeting(x+_x_move,y,o_Enemy)) { _x_move = 0; x_move = 0;}
+	if (place_meeting(x,y+_y_move,o_Enemy)) { _y_move = 0; y_move = 0;}
 	// Collision
 	// X
 		if (!place_meeting_tile_impassable(x+_x_move,y,LAYER_WALL_TILES))
@@ -103,5 +188,28 @@ perform_step = function(){
 				y += sign(_y_move);
 			}
 		}
+	
+	// Bullet collision
+	var _list = ds_list_create();
+	var _bulletnum = collision_rectangle_list(hbox_left(),hbox_top(),hbox_right(),hbox_bottom(),o_Bullet,false,false,_list,false);
+	var _damage = 0;
+	for (var _i = 0; _i < _bulletnum; _i += 1)
+	{
+		_bullet = _list[| _i];
+		var _bdmg = _bullet.damage;
+		if (_bdmg > _damage) _damage = _bdmg;
+		_bullet.bullet_destroy();
+	}
+	if (_damage > 0) health_change(-_damage);
+	
+	// Player Collision
+	if (state == E_STATE.CHASE) && (place_meeting(x,y,o_Player))
+	{
+		next_state(E_STATE.RECOIL);
+	}
+	
+	// Drawing
+	scale_step(scale_struct,SCALE_MED);
+	depth = -y;
 }
 

@@ -2,6 +2,9 @@
 #macro GAME_WIDTH 480
 #macro GAME_HEIGHT 270
 #macro TERM_VELOC UNIT
+#macro SCALE_MED 60
+#macro SCALE_SLOW 90
+#macro SCALE_FAST 30
 
 enum AXIS
 {

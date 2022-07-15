@@ -3,6 +3,7 @@ event_inherited();
 
 movement_create();
 move_speed = UNIT/8;
+damage = 1;
 
 bullet_destroy = function(){
 	instance_destroy();	

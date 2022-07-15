@@ -8,12 +8,18 @@ move_accel = 0.05;
 shoot_time = 0;
 shoot_cd = 15;
 shoot_speed = UNIT/8;
+shoot_damage = 1;
+shoot_knock = UNIT/128;
 
 // Drawing
+scale_struct = scale_create();
 hand_distance = UNIT*0.5;
 hand_sprite = s_Hand;
 hand_x = x;
 hand_y = y;
+debug = false;
+dir_change_cd = 0;
+dir_change_cd_max = 10;
 
 // Input
 	key_left = 0;
@@ -31,26 +37,49 @@ get_input = function(){
 	
 	move_hori = key_right - key_left;
 	move_vert = key_down - key_up;
+	
+	if (debug_mode)
+	{
+		if (keyboard_check_pressed(ord("O")))
+		{
+			debug = !debug;
+			show_debug_overlay(debug);
+		}
+		if (keyboard_check_pressed(ord("M")))
+		{
+			global.db_draw = !global.db_draw;
+		}
+		if (keyboard_check_pressed(ord("P")))
+		{
+			global.db_path = !global.db_path;
+		}
+	}
 }
 
 process_shoot = function(){
 	if (shoot_time > 0) shoot_time -=1;
-	else
+	if (key_shoot) && (shoot_time == 0)
 	{
 		shoot_time = shoot_cd;
-		if (key_shoot) shoot_bullet();		
+		shoot_bullet();		
 	}
 }
 
 shoot_bullet = function(){
+	squash_scale(scale_struct,1.1,0.9);
 	var _speed = shoot_speed;
 	var _dir = point_direction(BBOX_CENTER,BBOX_MIDDLE,hand_x,hand_y);
 	var _bullet = instance_create_depth(hand_x,hand_y,depth,o_Bullet);
+	var _shootdmg = shoot_damage;
 	with (_bullet)
 	{
 		x_move = lengthdir_x(_speed,_dir);
 		y_move = lengthdir_y(_speed,_dir);
+		damage = _shootdmg;
 	}
+	// Knockback
+	x_knock += -lengthdir_x(shoot_knock,_dir);
+	y_knock += -lengthdir_y(shoot_knock,_dir);
 }
 
 update_hand_position = function(){
@@ -115,6 +144,20 @@ perform_step = function(){
 	update_hand_position();
 	process_shoot();
 	#region Drawing
-		
+		scale_step(scale_struct,SCALE_MED);
+		if (dir_change_cd > 0) dir_change_cd -=1;
+		if (move_hori != 0)
+		{
+			if (image_xscale != sign(move_hori)) 
+			{
+				if (dir_change_cd <= 0)
+				{
+					dir_change_cd = dir_change_cd_max;
+					squash_scale(scale_struct,1.2,0.8);
+				}
+				image_xscale = sign(move_hori);
+			}
+		}
+		depth = -y;
 	#endregion
 }
