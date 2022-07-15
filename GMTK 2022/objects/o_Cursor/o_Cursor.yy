@@ -1,14 +1,11 @@
 {
   "spriteId": {
-    "name": "s_Player",
-    "path": "sprites/s_Player/s_Player.yy",
+    "name": "s_Cursor",
+    "path": "sprites/s_Cursor/s_Cursor.yy",
   },
   "solid": false,
   "visible": true,
-  "spriteMaskId": {
-    "name": "s_Player",
-    "path": "sprites/s_Player/s_Player.yy",
-  },
+  "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
     "name": "p_Pause",
@@ -28,7 +25,6 @@
   "physicsShapePoints": [],
   "eventList": [
     {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
-    {"isDnD":false,"eventNum":0,"eventType":8,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
@@ -37,7 +33,7 @@
     "path": "folders/Objects.yy",
   },
   "resourceVersion": "1.0",
-  "name": "o_Player",
+  "name": "o_Cursor",
   "tags": [],
   "resourceType": "GMObject",
 }

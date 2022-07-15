@@ -22,6 +22,7 @@ function movement_calculate(){
 	
 	var _dir = point_direction(x,y,x+_x_move,y+_y_move);
 	var _dist = point_distance(x,y,x+_x_move,y+_y_move);
+	var _dist = clamp(_dist,-move_speed,move_speed);
 	_x_move = lengthdir_x(_dist,_dir);
 	_y_move = lengthdir_y(_dist,_dir);
 	

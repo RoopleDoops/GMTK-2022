@@ -8,3 +8,9 @@ enum AXIS
 	X,
 	Y
 }
+
+#macro LAYER_WALL_TILES "L_WallTiles"
+
+
+// Depth
+#macro DEPTH_CURSOR -15000
