@@ -3,13 +3,16 @@ enum E_STATE
 {
 	IDLE,
 	CHASE,
+	CHARGE,
 	RECOIL,
 	DIE
 }
 
 
 movement_create();
-move_speed = UNIT/24;
+move_speed_base = UNIT/24;
+charge_speed = UNIT/16;
+move_speed = move_speed_base;
 move_accel = 0.05;
 dir = 0;
 state = E_STATE.CHASE;
@@ -41,6 +44,10 @@ hbox_bottom = function(){
 recoil_time_max = 60;
 recoil_time = recoil_time_max;
 
+// Charge
+charge_time_max = 90;
+charge_time = charge_time_max;
+
 // Pathing
 path = path_add();
 pathx = 0;
@@ -53,6 +60,7 @@ path_time = 0;
 path_time_max = 15;
 
 // Drawing
+friendly_sprite = s_Friendly;
 shader_create_color_flash();
 shader_color = [0.0, 0.0, 1.0, 0.5];
 scale_struct = scale_create();
@@ -85,10 +93,17 @@ next_state = function(_state){
 	switch(_state)
 	{
 		case E_STATE.CHASE:
+			move_speed = move_speed_base;
 			path_time = 0;
 			state = _state;
 		break;
+		case E_STATE.CHARGE:
+			charge_time = charge_time_max;
+			move_speed = charge_speed;
+			state = _state;
+		break;
 		case E_STATE.RECOIL:
+			move_speed = move_speed_base;
 			squash_scale(scale_struct,0.8,1.2);
 			recoil_time = recoil_time_max;
 			state = _state;
@@ -103,6 +118,36 @@ next_state = function(_state){
 idle_step = function(){
 	x_move = lerp(x_move,0,move_accel);
 	y_move = lerp(y_move,0,move_accel);	
+}
+
+player_in_sights = function(_x,_y,_px,_py){
+	dir = point_direction(_x,_y,_px,_py);
+}
+
+collision_enemy_x = function(_x_move){
+	if (place_meeting(x+_x_move,y,o_Enemy)) { x_move = 0; return 0;}
+	else return _x_move;
+}
+
+collision_enemy_y = function(_y_move){
+	if (place_meeting(x,y+_y_move,o_Enemy)) { y_move = 0; return 0;}
+	else return _y_move;
+}
+
+charge_step = function(){
+	if (charge_time > 0) charge_time -=1;
+	else
+	{
+		next_state(E_STATE.CHASE);
+	}
+	enemy_movement_math();
+}
+
+enemy_movement_math = function(){
+	var _vx = lengthdir_x(move_speed,dir);
+	var _vy = lengthdir_y(move_speed,dir);
+	x_move = lerp(x_move,_vx,move_accel);
+	y_move = lerp(y_move,_vy,move_accel);	
 }
 
 chase_step = function(){
@@ -121,7 +166,7 @@ chase_step = function(){
 		&& (!collision_line_tile_impassable(x,bbox_top,_px,_py,LAYER_WALL_TILES))
 		&& (!collision_line_tile_impassable(x,bbox_bottom,_px,_py,LAYER_WALL_TILES))
 		{
-			dir = point_direction(_x,_y,_px,_py);
+			player_in_sights(_x,_y,_px,_py);
 		}
 		else
 		{
@@ -153,10 +198,7 @@ chase_step = function(){
 		}
 	}
 	else next_state(E_STATE.IDLE);
-	var _vx = lengthdir_x(move_speed,dir);
-	var _vy = lengthdir_y(move_speed,dir);
-	x_move = lerp(x_move,_vx,move_accel);
-	y_move = lerp(y_move,_vy,move_accel);
+	enemy_movement_math();
 #endregion
 }
 
@@ -170,6 +212,10 @@ recoil_step = function(){
 	}
 }
 
+wall_hit = function(){
+	squash_scale(scale_struct,1.1,0.9);
+}
+
 health_change = function(_amount){
 	hp_draw_time = hp_draw_time_max;
 	hp_alpha = hp_alpha_max;
@@ -181,6 +227,9 @@ health_change = function(_amount){
 }
 
 enemy_destroy = function(){
+	var _friendly = instance_create_depth(x,y,depth,o_Friendly);
+	_friendly.image_xscale = image_xscale;
+	_friendly.sprite_index = friendly_sprite;
 	instance_destroy();	
 }
 
@@ -190,6 +239,7 @@ perform_step = function(){
 		switch (state)
 		{
 			case E_STATE.CHASE:chase_step();break;
+			case E_STATE.CHARGE:charge_step();break;
 			case E_STATE.RECOIL:recoil_step();break;
 			case E_STATE.IDLE:idle_step();break;
 		}
@@ -199,9 +249,8 @@ perform_step = function(){
 	var _x_move = _move_array[AXIS.X];
 	var _y_move = _move_array[AXIS.Y];
 	
-	// Pause if meeting another enemy
-	if (place_meeting(x+_x_move,y,o_Enemy)) { _x_move = 0; x_move = 0;}
-	if (place_meeting(x,y+_y_move,o_Enemy)) { _y_move = 0; y_move = 0;}
+	_x_move = collision_enemy_x(_x_move);
+	_y_move = collision_enemy_y(_y_move);
 	// Collision
 	// X
 		if (!place_meeting_tile_impassable(x+_x_move,y,LAYER_WALL_TILES))
@@ -214,6 +263,7 @@ perform_step = function(){
 			{
 				x += sign(_x_move);
 			}
+			wall_hit();
 		}
 	// Y
 		if (!place_meeting_tile_impassable(x,y+_y_move,LAYER_WALL_TILES))
@@ -226,6 +276,7 @@ perform_step = function(){
 			{
 				y += sign(_y_move);
 			}
+			wall_hit();
 		}
 	
 	// Bullet collision
@@ -242,7 +293,7 @@ perform_step = function(){
 	if (_damage > 0) health_change(-_damage);
 	
 	// Player Collision
-	if (state == E_STATE.CHASE) && (place_meeting(x,y,o_Player))
+	if ((state == E_STATE.CHASE) || (state == E_STATE.CHARGE)) && (place_meeting(x,y,o_Player))
 	{
 		next_state(E_STATE.RECOIL);
 		o_Player.health_change(-1);

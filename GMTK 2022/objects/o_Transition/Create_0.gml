@@ -149,7 +149,6 @@ switch (fade_state)
 		// Once fully faded from, renable input and clear the room_to target and change state
 		if (complete)
 		{
-			
 			o_Controller.enable_input();
 			room_to = undefined;
 			fade_state = FADE.IDLE;

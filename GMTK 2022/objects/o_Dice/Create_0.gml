@@ -6,6 +6,7 @@ enum DICE_STATE
 	LOCKED
 }
 
+scale_struct = scale_create();
 state = DICE_STATE.IDLE;
 slot = -1;
 depth = -500;
@@ -17,6 +18,7 @@ dice_pickup = function(){
 		o_UpgradeManager.update_slot_filled(slot,false);
 		slot = -1;	
 	}
+	squash_scale(scale_struct,1.25,1.25);
 	state = DICE_STATE.HELD;
 	depth = -1000;
 }
@@ -42,12 +44,23 @@ dice_drop = function(){
 		state = DICE_STATE.IDLE;
 		depth = start_depth;
 	}
+	squash_scale(scale_struct,0.75,0.75);
+}
+
+dice_lock = function(){
+	state = DICE_STATE.LOCKED;
+	squash_scale(scale_struct,1.25,1.25);	
+}
+
+dice_emphasize = function(){
+	squash_scale(scale_struct,1.5,1.5);	
 }
 
 anim_struct = animate_create(sprite_index);
 //animate_pause(anim_struct);
 
 perform_step = function(){
+	scale_step(scale_struct,SCALE_MED);
 	animate_step(anim_struct);
 	if(animate_frame_end_check(anim_struct))
 	{

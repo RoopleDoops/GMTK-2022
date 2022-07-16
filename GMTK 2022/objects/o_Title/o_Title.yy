@@ -1,7 +1,7 @@
 {
   "spriteId": {
-    "name": "s_Grass",
-    "path": "sprites/s_Grass/s_Grass.yy",
+    "name": "s_TitleDice",
+    "path": "sprites/s_TitleDice/s_TitleDice.yy",
   },
   "solid": false,
   "visible": true,

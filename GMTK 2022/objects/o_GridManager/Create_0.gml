@@ -21,6 +21,8 @@ grid_update = function(){
 	}
 }
 
+
+
 perform_step = function(){
 
 	if (new_grid)

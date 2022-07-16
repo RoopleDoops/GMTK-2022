@@ -24,12 +24,12 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"e3ec5de5-76fe-469c-bdf5-1ab6f8509273","path":"sprites/s_UIButton/s_UIButton.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"e3ec5de5-76fe-469c-bdf5-1ab6f8509273","path":"sprites/s_UIButton/s_UIButton.yy",},"LayerId":{"name":"df3313ca-7be1-4e2c-8b2f-ad51302a5974","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_UIButton","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","name":"e3ec5de5-76fe-469c-bdf5-1ab6f8509273","tags":[],"resourceType":"GMSpriteFrame",},
-    {"compositeImage":{"FrameId":{"name":"6673f8c3-98a6-4236-b995-f6d6b0388f65","path":"sprites/s_UIButton/s_UIButton.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"6673f8c3-98a6-4236-b995-f6d6b0388f65","path":"sprites/s_UIButton/s_UIButton.yy",},"LayerId":{"name":"df3313ca-7be1-4e2c-8b2f-ad51302a5974","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_UIButton","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","name":"6673f8c3-98a6-4236-b995-f6d6b0388f65","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"28a420e9-18e0-4237-8437-11291a6e4a93","path":"sprites/s_UIButton/s_UIButton.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"28a420e9-18e0-4237-8437-11291a6e4a93","path":"sprites/s_UIButton/s_UIButton.yy",},"LayerId":{"name":"df3313ca-7be1-4e2c-8b2f-ad51302a5974","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_UIButton","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","name":"28a420e9-18e0-4237-8437-11291a6e4a93","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"288a6db4-d078-4ef2-b2b2-27f89ed12e98","path":"sprites/s_UIButton/s_UIButton.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"288a6db4-d078-4ef2-b2b2-27f89ed12e98","path":"sprites/s_UIButton/s_UIButton.yy",},"LayerId":{"name":"df3313ca-7be1-4e2c-8b2f-ad51302a5974","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_UIButton","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","name":"288a6db4-d078-4ef2-b2b2-27f89ed12e98","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
     "spriteId": {"name":"s_UIButton","path":"sprites/s_UIButton/s_UIButton.yy",},
@@ -44,8 +44,8 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"11d139da-5449-45f4-9cf4-8228a5606626","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"e3ec5de5-76fe-469c-bdf5-1ab6f8509273","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
-            {"id":"9955066b-d64b-40d4-96a0-924140767595","Key":1.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"6673f8c3-98a6-4236-b995-f6d6b0388f65","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"509f8490-1ad5-4b02-93f5-6d7296e8425e","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"28a420e9-18e0-4237-8437-11291a6e4a93","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"8b0588d3-a93d-4629-bc74-b0c52ef9df45","Key":1.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"288a6db4-d078-4ef2-b2b2-27f89ed12e98","path":"sprites/s_UIButton/s_UIButton.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"modifiers":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack",},
     ],
     "visibleRange": null,

@@ -1,4 +1,4 @@
-new_room = false;
+new_room = true;
 instance_create_depth(0,0,0,o_DebugManager);
 instance_create_depth(0,0,0,o_PauseManager);
 instance_create_depth(0,0,0,o_GridManager);

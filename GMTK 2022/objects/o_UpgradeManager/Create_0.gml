@@ -20,7 +20,8 @@ enum U_A2
 	TEXT,
 	VALUE,
 	SLOTTED,
-	DICE_ID
+	DICE_ID,
+	ROLLED
 }
 
 depth = 0;
@@ -49,6 +50,12 @@ upgrade_array_reset = function(){
 	for (var _i = 0; _i < a_size; _i += 1)
 	{
 		upgrade_array[_i][U_A2.SLOTTED] = 0;
+	}
+	// ROLLED
+	// Dice
+	for (var _i = 0; _i < a_size; _i += 1)
+	{
+		upgrade_array[_i][U_A2.ROLLED] = 0;
 	}	
 }
 upgrade_array_reset();
@@ -131,6 +138,7 @@ dice_hole_yoffset = UNIT*0.8;
 #region Rolling variables
 rolling_time = 0;
 rolling_time_space = 60;
+rolling_time_final = 180;
 #endregion
 
 collision_button = function(_x,_y){
@@ -149,6 +157,15 @@ collision_button = function(_x,_y){
 			if (upgrade_array[_i][U_A2.SLOTTED] == true) _slot_count += 1;
 		}
 		if (_slot_count == global.level) return true;
+		else 
+		{
+			var _dicenum = instance_number(o_Dice);
+			for (var _i = 0; _i < _dicenum; _i += 1)
+			{
+				var _dice = instance_find(o_Dice,_i);
+				if (_dice.slot == -1) _dice.dice_emphasize();
+			}
+		}
 	}
 #endregion
 }
@@ -159,15 +176,18 @@ fill_slot = function(_slot,_id){
 }
 
 roll_dice = function(){
-	var _dicenum = instance_number(o_Dice);
-	for (var _i = 0; _i < _dicenum; _i += 1)
+	if (state != UPGRADE_STATE.ROLLING)
 	{
-		var _dice = instance_find(o_Dice,_i);
-		_dice.state = DICE_STATE.LOCKED;
+		var _dicenum = instance_number(o_Dice);
+		for (var _i = 0; _i < _dicenum; _i += 1)
+		{
+			var _dice = instance_find(o_Dice,_i);
+			_dice.dice_lock();
+		}
+		rolling_count = 0;
+		rolling_time = rolling_time_space;
+		state = UPGRADE_STATE.ROLLING;
 	}
-	rolling_count = 0;
-	rolling_time = rolling_time_space;
-	state = UPGRADE_STATE.ROLLING;
 }
 
 
@@ -298,10 +318,6 @@ draw_array = function(){
 				var _dicex = _x;
 				var _dicey = _y + dice_hole_yoffset
 				draw_sprite(s_DiceHole,0,_dicex,_dicey);
-				if (upgrade_array[_i][U_A2.SLOTTED]) 
-				{
-					draw_sprite(s_Dice,0,_dicex,_dicey);
-				}
 			// Increment _i
 			_i += 1;
 		}
@@ -351,19 +367,25 @@ perform_step = function(){
 					{
 						if (upgrade_array[_i][U_A2.SLOTTED])
 						{
-							var _dice_id = upgrade_array[_i][U_A2.DICE_ID];
-							break;
+							if (upgrade_array[_i][U_A2.ROLLED] == false)
+							{
+								upgrade_array[_i][U_A2.ROLLED] = true;
+								var _dice_id = upgrade_array[_i][U_A2.DICE_ID];
+								break;
+							}
 						}
 					}
 					with (_dice_id)
 					{
 						animate_pause(anim_struct);
+						dice_emphasize();
 						var _roll = anim_struct.anim_index + 1;
 						var _slot = slot;
 					}
 					upgrade_array[_slot][U_A2.VALUE] = _roll;
 					rolling_count += 1;
-					rolling_time = rolling_time_space;
+					if (rolling_count == global.level) rolling_time = rolling_time_final;
+					else rolling_time = rolling_time_space;
 				}
 			}
 			else 

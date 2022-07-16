@@ -2,7 +2,8 @@
 event_inherited();
 
 movement_create();
-depth = -y;
+start_depth = 0;
+depth = start_depth;
 draw_angle = 0;
 move_speed = UNIT/8;
 damage = 1;
@@ -49,5 +50,5 @@ perform_step = function(){
 	#endregion
 	
 	// Drawing
-	depth = -(y+UNIT/2);
+	depth = lerp(start_depth,-y,0.05);
 }

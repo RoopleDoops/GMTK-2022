@@ -16,7 +16,7 @@ state = P_STATE.IDLE;
 hp_max = o_UpgradeManager.upgrade_get_value(U_A1.HEALTH);
 hp = hp_max;
 i_time = 0;
-i_time_max = 60;
+i_time_max = 90;
 o_UIManager.update_health();
 
 // Shooting
@@ -31,6 +31,7 @@ accuracy = 24 - (o_UpgradeManager.upgrade_get_value(U_A1.GUN) * 4);
 alpha = 1;
 shader_create_color_flash();
 shader_color = [1.0, 0.0, 0.0, 0.5];
+shader_time_max = 15;
 scale_struct = scale_create();
 hand_behind = false;
 hand_dist_x = UNIT*0.25;
@@ -133,8 +134,8 @@ shoot_bullet = function(){
 	var _speed = shoot_speed;
 	var _acc = irandom_range(-accuracy,accuracy);
 	var _dir = dir;//point_direction(x,BBOX_MIDDLE,hand_x,hand_y);
-	var _shootx = hand_x ;//+ lengthdir_x(shoot_xoffset,_dir);
-	var _shooty = hand_y ;//+ lengthdir_y(shoot_yoffset,_dir);
+	var _shootx = barrel_x;
+	var _shooty = barrel_y;
 	var _bullet = instance_create_depth(_shootx,_shooty,depth,o_Bullet);
 	var _shootdmg = shoot_damage;
 	with (_bullet)
@@ -156,6 +157,8 @@ update_hand_position = function(){
 	hand_angle = dir;
 	hand_x = floor(x+lengthdir_x(hand_dist_x,dir));
 	hand_y = floor(BBOX_MIDDLE+hand_yoffset+lengthdir_y(hand_dist_y,dir));
+	barrel_x = floor(x+lengthdir_x(hand_dist_x+12,dir));
+	barrel_y = floor(BBOX_MIDDLE+hand_yoffset-2+lengthdir_y(20,dir));
 }
 
 #region Create Cursor
