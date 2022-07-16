@@ -9,7 +9,7 @@ enum E_STATE
 
 
 movement_create();
-move_speed = UNIT/32;
+move_speed = UNIT/24;
 move_accel = 0.05;
 dir = 0;
 state = E_STATE.CHASE;
@@ -67,8 +67,16 @@ next_state = function(_state){
 			recoil_time = recoil_time_max;
 			state = _state;
 		break;
+		case E_STATE.IDLE:
+			state = _state;
+		break;
 	}
 #endregion
+}
+
+idle_step = function(){
+	x_move = lerp(x_move,0,move_accel);
+	y_move = lerp(y_move,0,move_accel);	
 }
 
 chase_step = function(){
@@ -118,6 +126,7 @@ chase_step = function(){
 			}
 		}
 	}
+	else next_state(E_STATE.IDLE);
 	var _vx = lengthdir_x(move_speed,dir);
 	var _vy = lengthdir_y(move_speed,dir);
 	x_move = lerp(x_move,_vx,move_accel);
@@ -153,6 +162,7 @@ perform_step = function(){
 		{
 			case E_STATE.CHASE:chase_step();break;
 			case E_STATE.RECOIL:recoil_step();break;
+			case E_STATE.IDLE:idle_step();break;
 		}
 	#endregion
 	
@@ -206,6 +216,7 @@ perform_step = function(){
 	if (state == E_STATE.CHASE) && (place_meeting(x,y,o_Player))
 	{
 		next_state(E_STATE.RECOIL);
+		o_Player.health_change(-1);
 	}
 	
 	// Drawing

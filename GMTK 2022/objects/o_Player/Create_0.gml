@@ -4,6 +4,11 @@ move_hori = 0;
 move_vert = 0;
 move_accel = 0.05;
 
+// Health
+hp_max = 6;
+hp = hp_max;
+o_UIManager.update_health();
+
 // Shooting
 shoot_time = 0;
 shoot_cd = 15;
@@ -54,6 +59,18 @@ get_input = function(){
 			global.db_path = !global.db_path;
 		}
 	}
+}
+
+player_destroy = function(){
+	instance_destroy();	
+}
+
+health_change = function(_amount){
+	squash_scale(scale_struct,1.2,0.8);
+	hp += _amount;
+	hp = max(hp,0);
+	o_UIManager.update_health();
+	if (hp <= 0) player_destroy();	
 }
 
 process_shoot = function(){
