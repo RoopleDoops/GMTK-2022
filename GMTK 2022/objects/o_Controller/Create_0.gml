@@ -46,3 +46,5 @@ perform_step = function(){
 		if (key_restart) room_reset();
 	}
 }
+
+room_goto(START_ROOM);
