@@ -1,9 +1,8 @@
 new_room = false;
-depth = -15000;
 instance_create_depth(0,0,depth,o_DebugManager);
 instance_create_depth(0,0,depth,o_PauseManager);
 instance_create_depth(0,0,depth,o_GridManager);
-instance_create_depth(0,0,depth-100,o_UIManager);
+instance_create_depth(0,0,depth,o_UIManager);
 instance_create_depth(0,0,depth,o_Transition);
 room_change(r_1);
 
@@ -39,12 +38,12 @@ perform_step = function(){
 	}
 	if (global.input_enabled)
 	{
-		key_pause = keyboard_check_pressed(vk_escape);
-		if (key_pause) o_PauseManager.pause_toggle();
+		//key_pause = keyboard_check_pressed(vk_escape);
+		//if (key_pause) o_PauseManager.pause_toggle();
 	}
 	if (debug_mode)
 	{
 		key_restart = keyboard_check_pressed(ord("R"));
-		if (key_restart) game_restart();
+		if (key_restart) room_change(room);
 	}
 }

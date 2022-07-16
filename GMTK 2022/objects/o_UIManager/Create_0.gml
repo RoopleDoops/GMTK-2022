@@ -4,7 +4,6 @@ enum HP_A
 	LIFE
 }
 
-depth = -16000
 offset_x = UNIT/4;
 offset_y = UNIT/4;
 space_x = UNIT/2;

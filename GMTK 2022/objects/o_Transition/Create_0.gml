@@ -58,6 +58,7 @@
 
 #region Create
 
+depth = -16000;
 complete = true;
 
 enum FADE
