@@ -31,6 +31,7 @@
     {"id":{"name":"t_Wall","path":"tilesets/t_Wall/t_Wall.yy",},"order":0,},
     {"id":{"name":"o_Player","path":"objects/o_Player/o_Player.yy",},"order":1,},
     {"id":{"name":"s_TileWall","path":"sprites/s_TileWall/s_TileWall.yy",},"order":1,},
+    {"id":{"name":"s_UIButton","path":"sprites/s_UIButton/s_UIButton.yy",},"order":13,},
     {"id":{"name":"initialize","path":"scripts/initialize/initialize.yy",},"order":1,},
     {"id":{"name":"sh_ColorFlash","path":"shaders/sh_ColorFlash/sh_ColorFlash.yy",},"order":0,},
     {"id":{"name":"o_GridManager","path":"objects/o_GridManager/o_GridManager.yy",},"order":2,},

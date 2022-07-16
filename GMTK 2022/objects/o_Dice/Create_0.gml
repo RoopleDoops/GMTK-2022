@@ -2,7 +2,8 @@ enum DICE_STATE
 {
 	HELD,
 	SLOTTED,
-	IDLE
+	IDLE,
+	LOCKED
 }
 
 state = DICE_STATE.IDLE;
@@ -32,6 +33,7 @@ dice_drop = function(){
 		slot = _slot;
 		x = o_UpgradeManager.get_slot_x(slot);
 		y = o_UpgradeManager.get_slot_y(slot);
+		o_UpgradeManager.fill_slot(_slot,id);
 		state = DICE_STATE.SLOTTED;
 		depth = start_depth;
 	}

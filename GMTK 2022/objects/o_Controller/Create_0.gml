@@ -7,6 +7,7 @@ instance_create_depth(0,0,0,o_UpgradeManager);
 instance_create_depth(0,0,0,o_Transition);
 
 
+
 enable_input = function(){
 	global.input_enabled = true;
 }
@@ -16,9 +17,7 @@ start_new_room = function(){
 }
 
 room_reset = function(){
-	global.draw_ui = false;
-	room_change(room);
-	start_new_room();
+	room_change(r_Upgrade);
 }
 
 perform_step = function(){

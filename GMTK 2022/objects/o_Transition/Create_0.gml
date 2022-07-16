@@ -135,7 +135,7 @@ switch (fade_state)
 		if (wait_time_from > 0) wait_time_from -= 1;
 		else
 		{	
-			o_UIManager.show_ui();
+			if (room != r_Upgrade) && (room != r_Title) o_UIManager.show_ui();
 			o_PauseManager.pause_end();
 			o_Controller.start_new_room();
 			o_Controller.enable_input();
