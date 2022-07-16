@@ -1,5 +1,7 @@
 scale_draw(scale_struct,x,y);
 
+draw_hp();
+
 if (global.db_path)
 {
 	draw_set_color(c_blue);
