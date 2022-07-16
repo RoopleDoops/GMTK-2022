@@ -1,4 +1,5 @@
 global.input_enabled = true;
+global.level = 6;
 global.pause = false;
 global.grid = 0;
 global.db_draw = false;

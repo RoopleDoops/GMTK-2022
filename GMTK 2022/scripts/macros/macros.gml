@@ -5,6 +5,7 @@
 #macro SCALE_MED 60
 #macro SCALE_SLOW 90
 #macro SCALE_FAST 30
+#macro FPS 60
 
 enum AXIS
 {

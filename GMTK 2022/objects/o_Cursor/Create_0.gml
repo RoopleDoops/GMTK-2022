@@ -1,6 +1,6 @@
 
 
 perform_step = function(){
-	x = mouse_x;
-	y = mouse_y;
+	x = floor(mouse_x);
+	y = floor(mouse_y);
 }
