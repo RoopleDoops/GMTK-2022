@@ -1,6 +1,7 @@
 grid_size = UNIT;
 grid_width = 0;
 grid_height = 0;
+new_grid = false;
 
 grid_create = function(){
 	mp_grid_destroy(global.grid);

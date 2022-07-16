@@ -13,7 +13,8 @@ move_speed = UNIT/24;
 move_accel = 0.05;
 dir = 0;
 state = E_STATE.CHASE;
-hp = 6;
+hp_max = 6;
+hp = hp_max;
 
 hbox_lo = 0;
 hbox_ro = 0;
@@ -53,6 +54,29 @@ path_time_max = 15;
 
 // Drawing
 scale_struct = scale_create();
+hp_alpha_max = 0.8;
+hp_alpha = 0;
+hp_alpha_accel = 0.2;
+hp_draw_time = 0;
+hp_draw_time_max = 120;
+hp_yoffset = -(UNIT+UNIT/2);
+hp_width_max = UNIT/2;
+hp_height = UNIT/8;
+hp_color_border = col_white;
+hp_color_bar = col_red3;
+
+draw_hp = function(){
+	if (hp_alpha > 0)
+	{
+		draw_set_alpha(hp_alpha);
+		draw_set_color(hp_color_bar);
+		var _xstart = x-(hp_width_max/2)
+		draw_rectangle(_xstart,y+hp_yoffset,_xstart+(hp/hp_max)*(hp_width_max),y+hp_yoffset+hp_height,false);
+		draw_set_color(hp_color_border);
+		draw_rectangle(_xstart,y+hp_yoffset,x+(hp_width_max/2),y+hp_yoffset+hp_height,true);
+		draw_set_alpha(1);
+	}
+}
 
 next_state = function(_state){
 #region
@@ -145,6 +169,8 @@ recoil_step = function(){
 }
 
 health_change = function(_amount){
+	hp_draw_time = hp_draw_time_max;
+	hp_alpha = hp_alpha_max;
 	squash_scale(scale_struct,1.2,0.8);
 	hp += _amount;
 	hp = max(hp,0);
@@ -220,6 +246,8 @@ perform_step = function(){
 	}
 	
 	// Drawing
+	if (hp_draw_time > 0) hp_draw_time -= 1;
+	else hp_alpha = lerp(hp_alpha,0,hp_alpha_accel);
 	scale_step(scale_struct,SCALE_MED);
 	depth = -y;
 }

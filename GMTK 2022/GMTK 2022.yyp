@@ -2,6 +2,7 @@
   "resources": [
     {"id":{"name":"collision_scripts","path":"scripts/collision_scripts/collision_scripts.yy",},"order":7,},
     {"id":{"name":"s_Bullet","path":"sprites/s_Bullet/s_Bullet.yy",},"order":3,},
+    {"id":{"name":"o_Camera","path":"objects/o_Camera/o_Camera.yy",},"order":6,},
     {"id":{"name":"macro_colors","path":"scripts/macro_colors/macro_colors.yy",},"order":1,},
     {"id":{"name":"f_Pixel","path":"fonts/f_Pixel/f_Pixel.yy",},"order":0,},
     {"id":{"name":"s_Player","path":"sprites/s_Player/s_Player.yy",},"order":0,},
