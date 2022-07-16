@@ -1,4 +1,6 @@
+if (shader_time > 0) shader_draw_color_flash();
 scale_draw(scale_struct,x,y);
+shader_reset();
 
 draw_hp();
 

@@ -4,6 +4,17 @@ enum HP_A
 	LIFE
 }
 
+enum UI_STATE
+{
+	ON,
+	OFF
+}
+
+
+state = UI_STATE.OFF;
+alpha = 0;
+alpha_accel = 0.05;
+
 offset_x = UNIT/4;
 offset_y = UNIT/4;
 space_x = UNIT/2;
@@ -38,6 +49,14 @@ update_health = function(){
 	update_health_array();
 }
 
+hide_ui = function(){
+	state = UI_STATE.OFF;
+}
+
+show_ui = function(){
+	state = UI_STATE.ON;
+}
+
 draw_health = function(){
 	var _size = array_length(health_array);
 	for (var _i = 0; _i < _size; _i += 1)
@@ -46,7 +65,7 @@ draw_health = function(){
 		{
 			var _x = offset_x + (_i*space_x);
 			var _y = offset_y;
-			draw_sprite_ext(health_sprite,health_array[_i][HP_A.LIFE],_x,_y,1,1,0,image_blend,image_alpha);
+			draw_sprite_ext(health_sprite,health_array[_i][HP_A.LIFE],_x,_y,1,1,0,image_blend,alpha);
 		}
 	}
 }
@@ -54,5 +73,15 @@ draw_health = function(){
 
 
 perform_step = function(){
+	switch (state)
+	{
+		case UI_STATE.ON:
+			alpha = lerp(alpha,1,alpha_accel);
+		break;
+		
+		case UI_STATE.OFF:
+			alpha = lerp(alpha,0,alpha_accel);
+		break;
+	}
 	
 }

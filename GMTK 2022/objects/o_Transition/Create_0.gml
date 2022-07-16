@@ -19,7 +19,7 @@
 		if (complete)
 		{
 			wait_time_max = _wait;
-			wait_time_from = _wait;
+			wait_time_from = wait_time_max;
 			from_duration_max = _dur;
 			duration = from_duration_max;
 			color = _color;
@@ -40,13 +40,13 @@
 	/// @param {integer}	[duration]
 	/// @param				[color]
 	/// @param {integer}	[wait_time]
-	fade_to = function(_dur = FADE_TO_DUR, _color = FADE_COLOR, _wait = FADE_WAIT_SKIP){
+	fade_to = function(_dur = FADE_TO_DUR, _color = FADE_COLOR, _wait = FADE_WAIT){
 		if (complete)
 		{
 			// -1 _wait signals wait to be off.
 			// Greater than -1 wait signals wait to occur and fade to auto transition after wait_time_to, not waiting on external signals.
-			wait_time_max = _wait;
-			wait_time_to = _wait;
+			wait_time_max = 30;//_wait;
+			wait_time_to = wait_time_max;
 			to_duration_max = _dur;
 			duration = to_duration_max;
 			color = _color;
@@ -58,7 +58,7 @@
 
 #region Create
 
-depth = -16000;
+depth = -14000;
 complete = true;
 
 enum FADE
@@ -135,7 +135,9 @@ switch (fade_state)
 		if (wait_time_from > 0) wait_time_from -= 1;
 		else
 		{	
+			o_UIManager.show_ui();
 			o_PauseManager.pause_end();
+			o_Controller.start_new_room();
 			o_Controller.enable_input();
 			fade_from(from_duration_max,color); // Matches FADE.TO values
 		}
@@ -147,6 +149,8 @@ switch (fade_state)
 		// Once fully faded from, renable input and clear the room_to target and change state
 		if (complete)
 		{
+			
+			o_Controller.enable_input();
 			room_to = undefined;
 			fade_state = FADE.IDLE;
 		}

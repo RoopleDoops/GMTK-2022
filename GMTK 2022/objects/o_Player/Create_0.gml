@@ -5,7 +5,7 @@ enum P_STATE
 }
 
 movement_create();
-move_speed = UNIT/16 + (irandom(5)/2);
+move_speed = UNIT/16 + (o_UpgradeManager.upgrade_get_value(U_A1.SPEED)/2);
 move_hori = 0;
 move_vert = 0;
 move_accel = 0.05;
@@ -13,15 +13,15 @@ dir = 0;
 state = P_STATE.IDLE;
 
 // Health
-hp_max = irandom(5) + 1;
+hp_max = 1 + o_UpgradeManager.upgrade_get_value(U_A1.HEALTH);
 hp = hp_max;
 o_UIManager.update_health();
 
 // Shooting
 shoot_time = 0;
-shoot_cd = 15 - irandom(5);
+shoot_cd = 15 - o_UpgradeManager.upgrade_get_value(U_A1.RATE);
 shoot_speed = UNIT/8;
-shoot_damage = irandom(5) + 1;
+shoot_damage = 1 + o_UpgradeManager.upgrade_get_value(U_A1.DAMAGE);
 shoot_knock = UNIT/128;
 
 // Drawing
@@ -89,8 +89,10 @@ get_input = function(){
 player_destroy = function(){
 	if (state != P_STATE.DEAD)
 	{
+		squash_scale(scale_struct,1,1);
 		o_Controller.room_reset();
 		state = P_STATE.DEAD;
+		depth = -14001;
 	}
 }
 

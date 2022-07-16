@@ -13,7 +13,7 @@ move_speed = UNIT/24;
 move_accel = 0.05;
 dir = 0;
 state = E_STATE.CHASE;
-hp_max = 6;
+hp_max = 8;
 hp = hp_max;
 
 hbox_lo = 0;
@@ -53,6 +53,8 @@ path_time = 0;
 path_time_max = 15;
 
 // Drawing
+shader_create_color_flash();
+shader_color = [1.0, 0.0, 0.0, 1.0];
 scale_struct = scale_create();
 hp_alpha_max = 0.8;
 hp_alpha = 0;
@@ -171,6 +173,7 @@ recoil_step = function(){
 health_change = function(_amount){
 	hp_draw_time = hp_draw_time_max;
 	hp_alpha = hp_alpha_max;
+	shader_time = shader_time_max;
 	squash_scale(scale_struct,1.2,0.8);
 	hp += _amount;
 	hp = max(hp,0);
@@ -246,6 +249,7 @@ perform_step = function(){
 	}
 	
 	// Drawing
+	if (shader_time > 0) shader_time -=1;
 	if (hp_draw_time > 0) hp_draw_time -= 1;
 	else hp_alpha = lerp(hp_alpha,0,hp_alpha_accel);
 	scale_step(scale_struct,SCALE_MED);
