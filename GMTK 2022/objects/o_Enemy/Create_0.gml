@@ -54,18 +54,18 @@ path_time_max = 15;
 
 // Drawing
 shader_create_color_flash();
-shader_color = [1.0, 0.0, 0.0, 1.0];
+shader_color = [0.0, 0.0, 1.0, 0.5];
 scale_struct = scale_create();
 hp_alpha_max = 0.8;
 hp_alpha = 0;
 hp_alpha_accel = 0.2;
 hp_draw_time = 0;
-hp_draw_time_max = 120;
+hp_draw_time_max = 300;
 hp_yoffset = -(UNIT+UNIT/2);
 hp_width_max = UNIT/2;
 hp_height = UNIT/8;
 hp_color_border = col_white;
-hp_color_bar = col_red3;
+hp_color_bar = col_blue3;
 
 draw_hp = function(){
 	if (hp_alpha > 0)
@@ -73,7 +73,7 @@ draw_hp = function(){
 		draw_set_alpha(hp_alpha);
 		draw_set_color(hp_color_bar);
 		var _xstart = x-(hp_width_max/2)
-		draw_rectangle(_xstart,y+hp_yoffset,_xstart+(hp/hp_max)*(hp_width_max),y+hp_yoffset+hp_height,false);
+		draw_rectangle(_xstart,y+hp_yoffset,_xstart+(1-hp/hp_max)*(hp_width_max),y+hp_yoffset+hp_height,false);
 		draw_set_color(hp_color_border);
 		draw_rectangle(_xstart,y+hp_yoffset,x+(hp_width_max/2),y+hp_yoffset+hp_height,true);
 		draw_set_alpha(1);

@@ -2,7 +2,8 @@
 event_inherited();
 
 movement_create();
-depth = -(y+UNIT/2);
+depth = -y;
+draw_angle = 0;
 move_speed = UNIT/8;
 damage = 1;
 

@@ -19,8 +19,13 @@ perform_step = function(){
 	{
 		if (held_dice == noone)
 		{
+			var _button = o_UpgradeManager.collision_button(x,y);
+			if (_button)
+			{
+				o_UpgradeManager.roll_dice();
+			}
 			var _dice = instance_place(x,y,o_Dice);
-			if (_dice != noone)
+			if (_dice != noone) && (_dice.state != DICE_STATE.LOCKED)
 			{
 				held_dice = _dice;
 				held_dice.dice_pickup();

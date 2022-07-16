@@ -8,14 +8,14 @@
   "collisionTolerance": 0,
   "swfPrecision": 2.525,
   "bbox_left": 0,
-  "bbox_right": 7,
+  "bbox_right": 8,
   "bbox_top": 0,
-  "bbox_bottom": 7,
+  "bbox_bottom": 8,
   "HTile": false,
   "VTile": false,
   "For3D": false,
-  "width": 8,
-  "height": 8,
+  "width": 9,
+  "height": 9,
   "textureGroupId": {
     "name": "Default",
     "path": "texturegroups/Default",
@@ -24,12 +24,12 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"da4cca16-d49e-4b7b-9f84-df1d6fa6c891","path":"sprites/s_UIHealth/s_UIHealth.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"da4cca16-d49e-4b7b-9f84-df1d6fa6c891","path":"sprites/s_UIHealth/s_UIHealth.yy",},"LayerId":{"name":"de7446fe-9fa6-4cbc-b57b-c17aca378ffe","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_UIHealth","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","name":"da4cca16-d49e-4b7b-9f84-df1d6fa6c891","tags":[],"resourceType":"GMSpriteFrame",},
-    {"compositeImage":{"FrameId":{"name":"2b771ca9-3109-4ac0-a421-a94c7acb4802","path":"sprites/s_UIHealth/s_UIHealth.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"2b771ca9-3109-4ac0-a421-a94c7acb4802","path":"sprites/s_UIHealth/s_UIHealth.yy",},"LayerId":{"name":"de7446fe-9fa6-4cbc-b57b-c17aca378ffe","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_UIHealth","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","name":"2b771ca9-3109-4ac0-a421-a94c7acb4802","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"e5a66a2b-c36f-444f-91c5-155ba744cf58","path":"sprites/s_UIHealth/s_UIHealth.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"e5a66a2b-c36f-444f-91c5-155ba744cf58","path":"sprites/s_UIHealth/s_UIHealth.yy",},"LayerId":{"name":"6af3a94e-0eb4-41f3-8c84-658dd838fe8e","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_UIHealth","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","name":"e5a66a2b-c36f-444f-91c5-155ba744cf58","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"5c528237-ba6a-4e42-ad0b-0d9e6c640c43","path":"sprites/s_UIHealth/s_UIHealth.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"5c528237-ba6a-4e42-ad0b-0d9e6c640c43","path":"sprites/s_UIHealth/s_UIHealth.yy",},"LayerId":{"name":"6af3a94e-0eb4-41f3-8c84-658dd838fe8e","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_UIHealth","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","name":"5c528237-ba6a-4e42-ad0b-0d9e6c640c43","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
     "spriteId": {"name":"s_UIHealth","path":"sprites/s_UIHealth/s_UIHealth.yy",},
@@ -44,8 +44,8 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"92529f0a-c04c-4dca-9aab-bc4f98e66eed","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"da4cca16-d49e-4b7b-9f84-df1d6fa6c891","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
-            {"id":"b6d6b505-2e02-412d-addf-73450feca11a","Key":1.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"2b771ca9-3109-4ac0-a421-a94c7acb4802","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"97b9428e-fec3-4693-bf6b-5c892f262230","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"e5a66a2b-c36f-444f-91c5-155ba744cf58","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"c503e9c5-d22d-40c3-9110-0719c851f24b","Key":1.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"5c528237-ba6a-4e42-ad0b-0d9e6c640c43","path":"sprites/s_UIHealth/s_UIHealth.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"modifiers":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack",},
     ],
     "visibleRange": null,
@@ -69,7 +69,7 @@
     "resourceType": "GMSequence",
   },
   "layers": [
-    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"de7446fe-9fa6-4cbc-b57b-c17aca378ffe","tags":[],"resourceType":"GMImageLayer",},
+    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"6af3a94e-0eb4-41f3-8c84-658dd838fe8e","tags":[],"resourceType":"GMImageLayer",},
   ],
   "nineSlice": null,
   "parent": {

@@ -5,7 +5,7 @@ enum P_STATE
 }
 
 movement_create();
-move_speed = UNIT/16 + (o_UpgradeManager.upgrade_get_value(U_A1.SPEED)/2);
+move_speed = UNIT/32 + (UNIT/64 * (o_UpgradeManager.upgrade_get_value(U_A1.SPEED)));
 move_hori = 0;
 move_vert = 0;
 move_accel = 0.05;
@@ -13,8 +13,10 @@ dir = 0;
 state = P_STATE.IDLE;
 
 // Health
-hp_max = 1 + o_UpgradeManager.upgrade_get_value(U_A1.HEALTH);
+hp_max = o_UpgradeManager.upgrade_get_value(U_A1.HEALTH);
 hp = hp_max;
+i_time = 0;
+i_time_max = 60;
 o_UIManager.update_health();
 
 // Shooting
@@ -23,8 +25,12 @@ shoot_cd = 15;
 shoot_speed = UNIT/8;
 shoot_damage = 1;
 shoot_knock = UNIT/128;
+accuracy = 24 - (o_UpgradeManager.upgrade_get_value(U_A1.GUN) * 4);
 
 // Drawing
+alpha = 1;
+shader_create_color_flash();
+shader_color = [1.0, 0.0, 0.0, 0.5];
 scale_struct = scale_create();
 hand_behind = false;
 hand_dist_x = UNIT*0.25;
@@ -89,6 +95,9 @@ get_input = function(){
 player_destroy = function(){
 	if (state != P_STATE.DEAD)
 	{
+		i_time = 0;
+		alpha = 1;
+		shader_time = 0;
 		squash_scale(scale_struct,1,1);
 		o_Controller.room_reset();
 		state = P_STATE.DEAD;
@@ -97,11 +106,17 @@ player_destroy = function(){
 }
 
 health_change = function(_amount){
-	squash_scale(scale_struct,1.2,0.8);
-	hp += _amount;
-	hp = max(hp,0);
-	o_UIManager.update_health();
-	if (hp <= 0) player_destroy();	
+	if (i_time == 0)
+	{
+		i_time = i_time_max;
+		alpha = 0.5;
+		shader_time = shader_time_max;
+		squash_scale(scale_struct,1.2,0.8);
+		hp += _amount;
+		hp = max(hp,0);
+		o_UIManager.update_health();
+		if (hp <= 0) player_destroy();	
+	}
 }
 
 process_shoot = function(){
@@ -116,6 +131,7 @@ process_shoot = function(){
 shoot_bullet = function(){
 	squash_scale(scale_struct,1.1,0.9);
 	var _speed = shoot_speed;
+	var _acc = irandom_range(-accuracy,accuracy);
 	var _dir = dir;//point_direction(x,BBOX_MIDDLE,hand_x,hand_y);
 	var _shootx = hand_x ;//+ lengthdir_x(shoot_xoffset,_dir);
 	var _shooty = hand_y ;//+ lengthdir_y(shoot_yoffset,_dir);
@@ -123,8 +139,9 @@ shoot_bullet = function(){
 	var _shootdmg = shoot_damage;
 	with (_bullet)
 	{
-		x_move = lengthdir_x(_speed,_dir);
-		y_move = lengthdir_y(_speed,_dir);
+		draw_angle = _dir+_acc;
+		x_move = lengthdir_x(_speed,draw_angle);
+		y_move = lengthdir_y(_speed,draw_angle);
 		damage = _shootdmg;
 	}
 	// Knockback
@@ -197,6 +214,9 @@ perform_step = function(){
 	update_hand_position();
 	process_shoot();
 	#region Drawing
+		if (i_time > 0) i_time -=1;
+		else alpha = 1;
+		if (shader_time > 0) shader_time -= 1;
 		scale_step(scale_struct,SCALE_MED);
 		if (dir_change_cd > 0) dir_change_cd -= 1;
 		if (image_xscale != angle_dir_hori(dir)) 
