@@ -44,5 +44,5 @@ perform_step = function(){
 	y = lerp(y,yTo,move_accel);
 	
 	
-	camera_set_view_pos(cam,x-cam_x_half,y-cam_y_half);
+	camera_set_view_pos(cam,round(x-cam_x_half),round(y-cam_y_half));
 }

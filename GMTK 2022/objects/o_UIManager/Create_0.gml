@@ -22,9 +22,9 @@ update_health_array = function(){
 	for (var _i = 0; _i < _size; _i += 1)
 	{
 		health_array[_i] = _i;
-		if (_i <= hp_max) health_array[_i][HP_A.DRAW] = true;
+		if (_i < hp_max) health_array[_i][HP_A.DRAW] = true;
 		else health_array[_i][HP_A.DRAW] = false;
-		if (_i <= hp-1) health_array[_i][HP_A.LIFE] = 0;
+		if (_i < hp) health_array[_i][HP_A.LIFE] = 0;
 		else health_array[_i][HP_A.LIFE] = 1;
 	}
 }
@@ -47,7 +47,6 @@ draw_health = function(){
 			var _x = offset_x + (_i*space_x);
 			var _y = offset_y;
 			draw_sprite_ext(health_sprite,health_array[_i][HP_A.LIFE],_x,_y,1,1,0,image_blend,image_alpha);
-			show_debug_message("Drawing UI Health at: "+string(_x)+", "+string(_y));
 		}
 	}
 }

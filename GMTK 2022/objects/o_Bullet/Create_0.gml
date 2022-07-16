@@ -2,6 +2,7 @@
 event_inherited();
 
 movement_create();
+depth = -(y+UNIT/2);
 move_speed = UNIT/8;
 damage = 1;
 
@@ -45,4 +46,7 @@ perform_step = function(){
 		}
 	
 	#endregion
+	
+	// Drawing
+	depth = -(y+UNIT/2);
 }

@@ -5,7 +5,7 @@ enum P_STATE
 }
 
 movement_create();
-move_speed = UNIT/16;
+move_speed = UNIT/16 + (irandom(5)/2);
 move_hori = 0;
 move_vert = 0;
 move_accel = 0.05;
@@ -13,15 +13,15 @@ dir = 0;
 state = P_STATE.IDLE;
 
 // Health
-hp_max = 6;
+hp_max = irandom(5) + 1;
 hp = hp_max;
 o_UIManager.update_health();
 
 // Shooting
 shoot_time = 0;
-shoot_cd = 15;
+shoot_cd = 15 - irandom(5);
 shoot_speed = UNIT/8;
-shoot_damage = 1;
+shoot_damage = irandom(5) + 1;
 shoot_knock = UNIT/128;
 
 // Drawing
