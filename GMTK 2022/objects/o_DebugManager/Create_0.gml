@@ -57,9 +57,8 @@ list_selection = 0; // moves selection in array
 update_list = true;
 
 #region Drawing
-	depth = -16000
 	window_x = 0;
-	window_width = view_get_wport(view_current)/2.5; 
+	window_width = view_get_wport(view_current); 
 	window_height = GAME_HEIGHT/2;
 	window_y = GAME_HEIGHT - window_height;
 	window_color = make_color_rgb(38,36,58);//col_grey5;
@@ -74,7 +73,7 @@ update_list = true;
 		// List
 		text_list_x = window_x + window_width - text_xoffset;
 		text_list_y = window_y + text_yoffset;
-		list_limit = 7;
+		list_limit = 3;
 		// Target
 		text_msg_x = window_x + text_xoffset;
 		text_msg_y = window_y + text_yoffset;
@@ -102,7 +101,7 @@ update_list = true;
 	// Selection
 	draw_set_font(text_font);
 	selection_height = string_height(text_no_value_msg);
-	selection_width = 320;
+	selection_width = 160;
 	selection_alpha = 0.25;
 	selection_color = make_color_rgb(163,172,190);//col_grey1;
 #endregion Drawing
@@ -529,7 +528,7 @@ get_text_input = function(){
 				// Ensure room exists
 				if (room_exists(_roomid))
 				{
-					ctrl_debug_room_change(_roomid);
+					room_change(_roomid);
 					_valid = true;
 					debug_end();
 				}

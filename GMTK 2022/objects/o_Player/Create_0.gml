@@ -1,27 +1,41 @@
+enum P_STATE
+{
+	IDLE,
+	DEAD
+}
+
 movement_create();
-move_speed = UNIT/16;
+move_speed = UNIT/16 + (o_UpgradeManager.upgrade_get_value(U_A1.SPEED)/2);
 move_hori = 0;
 move_vert = 0;
 move_accel = 0.05;
+dir = 0;
+state = P_STATE.IDLE;
 
 // Health
-hp_max = 6;
+hp_max = 1 + o_UpgradeManager.upgrade_get_value(U_A1.HEALTH);
 hp = hp_max;
 o_UIManager.update_health();
 
 // Shooting
 shoot_time = 0;
-shoot_cd = 15;
+shoot_cd = 15 - o_UpgradeManager.upgrade_get_value(U_A1.RATE);
 shoot_speed = UNIT/8;
-shoot_damage = 1;
+shoot_damage = 1 + o_UpgradeManager.upgrade_get_value(U_A1.DAMAGE);
 shoot_knock = UNIT/128;
 
 // Drawing
 scale_struct = scale_create();
-hand_distance = UNIT*0.5;
+hand_behind = false;
+hand_dist_x = UNIT*0.25;
+hand_dist_y = UNIT*0.25;
 hand_sprite = s_Hand;
 hand_x = x;
 hand_y = y;
+hand_yoffset = -4;
+shoot_xoffset = 11;
+shoot_yoffset = -2;
+hand_angle = 0;
 debug = false;
 dir_change_cd = 0;
 dir_change_cd_max = 10;
@@ -34,11 +48,22 @@ dir_change_cd_max = 10;
 	key_shoot = 0;
 
 get_input = function(){
-	key_left = keyboard_check_direct(ord("A"));
-	key_right = keyboard_check_direct(ord("D"));
-	key_up = keyboard_check_direct(ord("W"));
-	key_down = keyboard_check_direct(ord("S"));
-	key_shoot = mouse_check_button(mb_left);
+	if (global.input_enabled)
+	{
+		key_left = keyboard_check_direct(ord("A"));
+		key_right = keyboard_check_direct(ord("D"));
+		key_up = keyboard_check_direct(ord("W"));
+		key_down = keyboard_check_direct(ord("S"));
+		key_shoot = mouse_check_button(mb_left);
+	}
+	else
+	{
+		key_left = 0;
+		key_right = 0;
+		key_up = 0;
+		key_down = 0;
+		key_shoot = 0;
+	}
 	
 	move_hori = key_right - key_left;
 	move_vert = key_down - key_up;
@@ -62,7 +87,13 @@ get_input = function(){
 }
 
 player_destroy = function(){
-	instance_destroy();	
+	if (state != P_STATE.DEAD)
+	{
+		squash_scale(scale_struct,1,1);
+		o_Controller.room_reset();
+		state = P_STATE.DEAD;
+		depth = -14001;
+	}
 }
 
 health_change = function(_amount){
@@ -85,8 +116,10 @@ process_shoot = function(){
 shoot_bullet = function(){
 	squash_scale(scale_struct,1.1,0.9);
 	var _speed = shoot_speed;
-	var _dir = point_direction(BBOX_CENTER,BBOX_MIDDLE,hand_x,hand_y);
-	var _bullet = instance_create_depth(hand_x,hand_y,depth,o_Bullet);
+	var _dir = dir;//point_direction(x,BBOX_MIDDLE,hand_x,hand_y);
+	var _shootx = hand_x ;//+ lengthdir_x(shoot_xoffset,_dir);
+	var _shooty = hand_y ;//+ lengthdir_y(shoot_yoffset,_dir);
+	var _bullet = instance_create_depth(_shootx,_shooty,depth,o_Bullet);
 	var _shootdmg = shoot_damage;
 	with (_bullet)
 	{
@@ -95,14 +128,17 @@ shoot_bullet = function(){
 		damage = _shootdmg;
 	}
 	// Knockback
-	x_knock += -lengthdir_x(shoot_knock,_dir);
-	y_knock += -lengthdir_y(shoot_knock,_dir);
+	//x_knock += -lengthdir_x(shoot_knock,_dir);
+	//y_knock += -lengthdir_y(shoot_knock,_dir);
 }
 
 update_hand_position = function(){
-	var _dir = point_direction(BBOX_CENTER,BBOX_MIDDLE,get_cursor_x(),get_cursor_y());
-	hand_x = floor(BBOX_CENTER+lengthdir_x(hand_distance,_dir));
-	hand_y = floor(BBOX_MIDDLE+lengthdir_y(hand_distance,_dir));
+	dir = point_direction(x,BBOX_MIDDLE,get_cursor_x(),get_cursor_y()-hand_yoffset);
+	if (within_range(dir,50,130)) hand_behind = true;
+	else hand_behind = false;
+	hand_angle = dir;
+	hand_x = floor(x+lengthdir_x(hand_dist_x,dir));
+	hand_y = floor(BBOX_MIDDLE+hand_yoffset+lengthdir_y(hand_dist_y,dir));
 }
 
 #region Create Cursor
@@ -162,18 +198,15 @@ perform_step = function(){
 	process_shoot();
 	#region Drawing
 		scale_step(scale_struct,SCALE_MED);
-		if (dir_change_cd > 0) dir_change_cd -=1;
-		if (move_hori != 0)
+		if (dir_change_cd > 0) dir_change_cd -= 1;
+		if (image_xscale != angle_dir_hori(dir)) 
 		{
-			if (image_xscale != sign(move_hori)) 
+			if (dir_change_cd <= 0)
 			{
-				if (dir_change_cd <= 0)
-				{
-					dir_change_cd = dir_change_cd_max;
-					squash_scale(scale_struct,1.2,0.8);
-				}
-				image_xscale = sign(move_hori);
+				dir_change_cd = dir_change_cd_max;
+				squash_scale(scale_struct,1.2,0.8);
 			}
+			image_xscale = angle_dir_hori(dir);
 		}
 		depth = -y;
 	#endregion
