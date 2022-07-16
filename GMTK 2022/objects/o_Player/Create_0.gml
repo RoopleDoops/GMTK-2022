@@ -19,9 +19,9 @@ o_UIManager.update_health();
 
 // Shooting
 shoot_time = 0;
-shoot_cd = 15 - o_UpgradeManager.upgrade_get_value(U_A1.RATE);
+shoot_cd = 15;
 shoot_speed = UNIT/8;
-shoot_damage = 1 + o_UpgradeManager.upgrade_get_value(U_A1.DAMAGE);
+shoot_damage = 1;
 shoot_knock = UNIT/128;
 
 // Drawing
