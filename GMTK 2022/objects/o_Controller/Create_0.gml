@@ -1,18 +1,32 @@
 new_room = false;
-
-instance_create_layer(0,0,layer,o_DebugManager);
-instance_create_layer(0,0,layer,o_PauseManager);
-instance_create_layer(0,0,layer,o_GridManager);
-instance_create_layer(0,0,layer,o_UIManager);
+depth = -15000;
+instance_create_depth(0,0,depth,o_DebugManager);
+instance_create_depth(0,0,depth,o_PauseManager);
+instance_create_depth(0,0,depth,o_GridManager);
+instance_create_depth(0,0,depth-100,o_UIManager);
+instance_create_depth(0,0,depth,o_Transition);
 room_change(r_1);
 
+enable_input = function(){
+	global.input_enabled = true;
+}
 
+
+room_reset = function(_dur = FADE_TO_DUR,_color = FADE_COLOR,_wait = 60){
+#region Room Reset
+	o_PauseManager.pause_start();
+	global.input_enabled = false;
+	// Pass room to o_Transition and start fade
+	o_Transition.room_to = room;
+	o_Transition.fade_to(_dur,_color,_wait);
+#endregion
+}
 
 perform_step = function(){
 	if (new_room)
 	{
 		new_room = false;
-		instance_create_layer(0,0,layer,o_Camera);
+		instance_create_depth(0,0,depth,o_Camera);
 		o_Camera.camera_snap();
 		
 		if (instance_exists(o_GridManager))

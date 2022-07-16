@@ -48,6 +48,7 @@ draw_health = function(){
 			var _x = offset_x + (_i*space_x);
 			var _y = offset_y;
 			draw_sprite_ext(health_sprite,health_array[_i][HP_A.LIFE],_x,_y,1,1,0,image_blend,image_alpha);
+			show_debug_message("Drawing UI Health at: "+string(_x)+", "+string(_y));
 		}
 	}
 }

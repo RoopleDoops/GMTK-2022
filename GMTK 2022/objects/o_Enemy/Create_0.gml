@@ -249,6 +249,11 @@ perform_step = function(){
 	if (hp_draw_time > 0) hp_draw_time -= 1;
 	else hp_alpha = lerp(hp_alpha,0,hp_alpha_accel);
 	scale_step(scale_struct,SCALE_MED);
+	if (angle_dir_hori(dir) != image_xscale)
+	{
+		squash_scale(scale_struct,1.1,0.9);
+		image_xscale = angle_dir_hori(dir);
+	}
 	depth = -y;
 }
 
