@@ -16,7 +16,7 @@ move_speed = move_speed_base;
 move_accel = 0.05;
 dir = 0;
 state = E_STATE.CHASE;
-hp_max = 8;
+hp_max = 100;
 hp = hp_max;
 
 hbox_lo = 0;
@@ -289,7 +289,7 @@ perform_step = function(){
 	{
 		_bullet = _list[| _i];
 		var _bdmg = _bullet.damage;
-		if (_bdmg > _damage) _damage = _bdmg;
+		_damage += _bdmg;
 		_bullet.bullet_destroy();
 	}
 	if (_damage > 0) health_change(-_damage);
