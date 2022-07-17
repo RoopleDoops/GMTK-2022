@@ -32,13 +32,13 @@ perform_step = function(){
 		break;
 		case EMGR_STATE.TRANS:
 			global.level += 1;
-			global.dice_num = min(global.level,6);
+			if (global.dice_num != 6) global.dice_num = min(global.level,6);
 			state = EMGR_STATE.DONE;
 			if (instance_exists(o_Player)) 
 			{
 				with (o_Player) player_win();
 			}
-			if (global.level < global.level_limit) room_change(r_Upgrade);
+			if (global.level <= global.level_limit) room_change(r_Upgrade);
 			else 
 			{
 				global.level = global.level_start;

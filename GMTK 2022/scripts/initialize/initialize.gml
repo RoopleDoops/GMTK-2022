@@ -14,4 +14,6 @@ window_set_size(GAME_WIDTH*2,GAME_HEIGHT*2);
 
 randomize();
 
+window_set_fullscreen(true);
+
 #macro START_ROOM r_Title

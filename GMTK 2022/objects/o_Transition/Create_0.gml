@@ -138,7 +138,7 @@ switch (fade_state)
 			var _name = room_get_name(room);
 			var _char = string_char_at(_name,3);
 			// Load ui on levels
-			if (_char == 3) o_UIManager.show_ui();
+			if (_char == "L") o_UIManager.show_ui();
 			o_PauseManager.pause_end();
 			o_Controller.start_new_room();
 			o_Controller.enable_input();
