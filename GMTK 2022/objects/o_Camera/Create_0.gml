@@ -65,8 +65,8 @@ perform_step = function(){
 		//else if (x > follow.x + cam_x_buffer) xTo = follow.x+cam_x_buffer;
 		//if (y < follow.y - cam_y_buffer) yTo = follow.y-cam_y_buffer;
 		//else if (y > follow.y + cam_y_buffer) yTo = follow.y+cam_y_buffer;
-		xTo = ((follow.x*3) + mouse_x)/4;
-		yTo = ((follow.y*3) + mouse_y)/4;
+		xTo = ((follow.x*2) + mouse_x)/3;
+		yTo = ((follow.y*2) + mouse_y)/3;
 	}
 	
 	x = lerp(x,xTo,move_accel)+shake_x;
