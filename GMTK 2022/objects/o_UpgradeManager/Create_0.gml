@@ -24,6 +24,12 @@ enum U_A2
 	ROLLED
 }
 
+// SOUND
+roll_sound = sfx_diceRoll;
+roll_sound_playing = noone;
+put_sound = sfx_dicePut;
+put_sound_playing = noone;
+
 depth = 0;
 upgrade_array = [];
 upgrade_array[U_A1.HEALTH][U_A2.TEXT] = "HEALTH";
@@ -44,10 +50,13 @@ upgrade_array_reset = function(){
 	// Value
 	for (var _i = 0; _i < a_size; _i += 1)
 	{
-		// clothing initiates at 1
+		// Style initiates at 0 or 2
 		if (upgrade_array[_i][U_A2.ROW] == 1)
 		{
-			upgrade_array[_i][U_A2.VALUE] = 0;
+			// sound starts at 2
+			if (_i == U_A1.SFX) upgrade_array[_i][U_A2.VALUE] = 2;
+			// Clothes at 0
+			else upgrade_array[_i][U_A2.VALUE] = 1;
 		}
 		// Others at 1
 		else upgrade_array[_i][U_A2.VALUE] = 1;
@@ -216,6 +225,21 @@ dice_hole_yoffset = UNIT*0.8;
 	}
 #endregion
 
+#region GUN SPRITE ASSIGNMENTS
+	get_sfx = function(){
+	var _val = upgrade_array[U_A1.SFX][U_A2.VALUE];
+	switch (_val)
+	{
+		case 1: return sfx_gun01; break;
+		case 2: return sfx_gun02; break;
+		case 3:	return sfx_gun03; break;
+		case 4: return sfx_gun04; break;
+		case 5:	return sfx_gun05; break;
+		case 6: return sfx_gun06; break;
+	}
+	}
+#endregion
+
 #region BOOT SPRITE ASSIGNMENTS
 	get_boot_sprite = function(){
 	var _val = upgrade_array[U_A1.SPEED][U_A2.VALUE];
@@ -269,9 +293,15 @@ collision_button = function(_x,_y){
 		{
 			if (upgrade_array[_i][U_A2.SLOTTED] == true) _slot_count += 1;
 		}
-		if (_slot_count == global.level) return true;
+		// Click accepted
+		if (_slot_count == global.dice_num) 
+		{
+			return true;
+		}
+		// Dice not all placed
 		else 
 		{
+			audio_play_sound(sfx_uiBad,50,false);
 			var _dicenum = instance_number(o_Dice);
 			for (var _i = 0; _i < _dicenum; _i += 1)
 			{
@@ -291,6 +321,12 @@ fill_slot = function(_slot,_id){
 roll_dice = function(){
 	if (state != UPGRADE_STATE.ROLLING)
 	{
+		var _sfx = roll_sound_playing
+		if (audio_exists(_sfx)) && (audio_is_playing(_sfx))
+		{
+			audio_stop_sound(_sfx)
+		}
+		roll_sound_playing = audio_play_sound(roll_sound,50,false);
 		var _dicenum = instance_number(o_Dice);
 		for (var _i = 0; _i < _dicenum; _i += 1)
 		{
@@ -363,6 +399,12 @@ collision_slot_array = function(_x1,_y1,_x2,_y2){
 		var _closed_slot = upgrade_array[_i][U_A2.SLOTTED];
 		if (point_in_rectangle(_x,_y,_x1-8,_y1-8,_x2+8,_y2+8)) && (!_closed_slot)
 		{
+			var _sfx = put_sound_playing
+			if (audio_exists(_sfx)) && (audio_is_playing(_sfx))
+			{
+				audio_stop_sound(_sfx)
+			}
+			put_sound_playing = audio_play_sound(put_sound,50,false);
 			update_slot_filled(_i,true);
 			return _i;
 		}
@@ -382,7 +424,7 @@ get_slot_y = function(_slot){
 
 create_dice = function(){
 #region
-	for (var _i = 0; _i < global.level; _i += 1)
+	for (var _i = 0; _i < global.dice_num; _i += 1)
 	{
 		if (_i < 3) 
 		{
@@ -472,7 +514,7 @@ perform_step = function(){
 		
 		case UPGRADE_STATE.ROLLING:
 			draw_alpha = lerp(draw_alpha,1,alpha_accel);
-			if (rolling_count < global.level)
+			if (rolling_count < global.dice_num)
 			{
 				if (rolling_time > 0) rolling_time -= 1;
 				else
@@ -495,10 +537,20 @@ perform_step = function(){
 						var _roll = anim_struct.anim_index + 1;
 						var _slot = slot;
 					}
+					switch (_roll)
+					{
+						case 1: var _sound = sfx_gun01; break;
+						case 2: var _sound = sfx_dice02; break;
+						case 3: var _sound = sfx_dice03; break;
+						case 4: var _sound = sfx_dice04; break;
+						case 5: var _sound = sfx_dice05; break;
+						case 6: var _sound = sfx_dice06; break;
+					}
+					audio_play_sound(_sound,50,false);
 					upgrade_array[_slot][U_A2.VALUE] = _roll;
 					update_player_model(_slot);
 					rolling_count += 1;
-					if (rolling_count == global.level) rolling_time = rolling_time_final;
+					if (rolling_count == global.dice_num) rolling_time = rolling_time_final;
 					else rolling_time = rolling_time_space;
 				}
 			}

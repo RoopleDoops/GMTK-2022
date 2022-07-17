@@ -1,5 +1,8 @@
 global.input_enabled = true;
-global.level = 2;
+global.level_start = 2;
+global.level = global.level_start;
+global.level_limit = 7;
+global.dice_num = global.level_start;
 global.pause = false;
 global.grid = 0;
 global.db_draw = false;
@@ -11,4 +14,4 @@ window_set_size(GAME_WIDTH*2,GAME_HEIGHT*2);
 
 randomize();
 
-#macro START_ROOM r_L5
+#macro START_ROOM r_Title

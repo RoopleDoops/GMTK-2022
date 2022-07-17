@@ -11,7 +11,11 @@ enemy_num = instance_number(o_Enemy);
 
 enemy_count_update = function(){
 	enemy_num -=1;
-	if (enemy_num <= 0) state = EMGR_STATE.WIN;
+	if (enemy_num <= 0) 
+	{
+		audio_play_sound(sfx_dice06,50,false);
+		state = EMGR_STATE.WIN;
+	}
 }
 
 win_time_max = 120;
@@ -28,12 +32,18 @@ perform_step = function(){
 		break;
 		case EMGR_STATE.TRANS:
 			global.level += 1;
+			global.dice_num = min(global.level,6);
 			state = EMGR_STATE.DONE;
 			if (instance_exists(o_Player)) 
 			{
 				with (o_Player) player_win();
 			}
-			room_change(r_Upgrade);
+			if (global.level < global.level_limit) room_change(r_Upgrade);
+			else 
+			{
+				global.level = global.level_start;
+				room_change(r_Title);
+			}
 		break;
 		case EMGR_STATE.DONE:
 		break;

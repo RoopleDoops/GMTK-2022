@@ -2,10 +2,12 @@
 
 // Get input
 key_click = 0;
+key_clicked = 0;
 held_dice = noone;
 
 get_input = function(){
 	key_click = mouse_check_button(mb_left);
+	key_clicked = mouse_check_button_released(mb_left);
 	
 	x = floor(mouse_x);
 	y = floor(mouse_y);
@@ -19,11 +21,6 @@ perform_step = function(){
 	{
 		if (held_dice == noone)
 		{
-			var _button = o_UpgradeManager.collision_button(x,y);
-			if (_button)
-			{
-				o_UpgradeManager.roll_dice();
-			}
 			var _dice = instance_place(x,y,o_Dice);
 			if (_dice != noone) && (_dice.state != DICE_STATE.LOCKED)
 			{
@@ -36,5 +33,13 @@ perform_step = function(){
 	{
 		held_dice.dice_drop();
 		held_dice = noone;
+	}
+	else if (key_clicked)
+	{
+		var _button = o_UpgradeManager.collision_button(x,y);
+		if (_button)
+		{
+			o_UpgradeManager.roll_dice();
+		}
 	}
 }

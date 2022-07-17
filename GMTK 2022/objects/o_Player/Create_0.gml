@@ -20,6 +20,8 @@ i_time_max = 90;
 o_UIManager.update_health();
 
 // Shooting
+gun_sfx = o_UpgradeManager.get_sfx();
+gun_sound_play = noone;
 gun = o_UpgradeManager.upgrade_get_value(U_A1.GUN);
 switch (gun)
 {
@@ -73,7 +75,7 @@ switch (gun)
 	break;
 	case 5: // SNIPER
 		shoot_cd = 60;
-		shoot_speed = 24;
+		shoot_speed = 8;
 		shoot_damage = 50;
 		shoot_knock = 4;
 		shoot_spread = 0;
@@ -85,7 +87,7 @@ switch (gun)
 	break;
 	case 6: // CANNON
 		shoot_cd = 90;
-		shoot_speed = 2.5;
+		shoot_speed = 2;
 		shoot_damage = 100;
 		shoot_knock = 8;
 		shoot_spread = 0;
@@ -228,6 +230,13 @@ process_shoot = function(){
 }
 
 shoot_bullet = function(){
+	// AUDIO
+	if (audio_exists(gun_sound_play)) && (audio_is_playing(gun_sound_play))
+	{
+		audio_stop_sound(gun_sound_play);	
+	}
+	gun_sound_play = audio_play_sound(gun_sfx,50,false);
+	// BULLET
 	squash_scale(scale_struct,1.1,0.9);
 	var _speed = shoot_speed;
 	var _acc = irandom_range(-shoot_spread,shoot_spread);
@@ -256,6 +265,7 @@ shoot_bullet = function(){
 			image_xscale = _shootsize;
 			image_yscale = _shootsize;
 			draw_angle = _dir+_acc+_ang;
+			move_speed = _speed;
 			x_move = lengthdir_x(_speed,draw_angle);
 			y_move = lengthdir_y(_speed,draw_angle);
 			damage = _shootdmg;

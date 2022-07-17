@@ -135,7 +135,10 @@ switch (fade_state)
 		if (wait_time_from > 0) wait_time_from -= 1;
 		else
 		{	
-			if (room != r_Upgrade) && (room != r_Title) o_UIManager.show_ui();
+			var _name = room_get_name(room);
+			var _char = string_char_at(_name,3);
+			// Load ui on levels
+			if (_char == 3) o_UIManager.show_ui();
 			o_PauseManager.pause_end();
 			o_Controller.start_new_room();
 			o_Controller.enable_input();

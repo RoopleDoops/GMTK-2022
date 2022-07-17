@@ -10,6 +10,8 @@ sprite_setup = function(_change,_friendly){
 	anim_struct = animate_create(change_sprite);
 }
 
+audio_play_sound(sfx_friendly,50,false);
+
 
 perform_step = function(){
 	if (anim_struct.anim_sprite == change_sprite) && (animate_end_check(anim_struct))

@@ -5,7 +5,7 @@ movement_create();
 start_depth = 0;
 depth = start_depth;
 draw_angle = 0;
-move_speed = UNIT/8;
+move_speed = 4;
 damage = 1;
 
 bullet_destroy = function(){

@@ -28,6 +28,9 @@ get_next_room = function(){
 		case 6:
 			return r_L5;
 		break;
+		case 7:
+			return r_L6;
+		break;
 		default:
 			show_debug_message("No case for global.level at "+string(global.level));
 			return r_Title;
