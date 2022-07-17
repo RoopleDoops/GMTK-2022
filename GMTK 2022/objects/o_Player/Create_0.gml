@@ -28,6 +28,8 @@ shoot_knock = UNIT/128;
 accuracy = 24 - (o_UpgradeManager.upgrade_get_value(U_A1.GUN) * 4);
 
 // Drawing
+hat_sprite = o_UpgradeManager.get_hat_sprite();
+astruct_body = animate_create(o_UpgradeManager.get_body_sprite());
 alpha = 1;
 shader_create_color_flash();
 shader_color = [1.0, 0.0, 0.0, 0.5];
@@ -220,6 +222,7 @@ perform_step = function(){
 		if (i_time > 0) i_time -=1;
 		else alpha = 1;
 		if (shader_time > 0) shader_time -= 1;
+		animate_step(astruct_body);
 		scale_step(scale_struct,SCALE_MED);
 		if (dir_change_cd > 0) dir_change_cd -= 1;
 		if (image_xscale != angle_dir_hori(dir)) 

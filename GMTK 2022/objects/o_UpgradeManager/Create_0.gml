@@ -11,7 +11,7 @@ enum U_A1
 	SPEED = 1,
 	GUN,
 	HAT,
-	TORSO,
+	BODY,
 	SFX
 }
 enum U_A2
@@ -30,7 +30,7 @@ upgrade_array[U_A1.HEALTH][U_A2.TEXT] = "HEALTH";
 upgrade_array[U_A1.SPEED][U_A2.TEXT] = "SPEED";
 upgrade_array[U_A1.GUN][U_A2.TEXT] = "AIM";
 upgrade_array[U_A1.HAT][U_A2.TEXT] = "HAT";
-upgrade_array[U_A1.TORSO][U_A2.TEXT] = "TORSO";
+upgrade_array[U_A1.BODY][U_A2.TEXT] = "BODY";
 upgrade_array[U_A1.SFX][U_A2.TEXT] = "SFX";
 a_size = array_length(upgrade_array);
 // Row
@@ -44,7 +44,13 @@ upgrade_array_reset = function(){
 	// Value
 	for (var _i = 0; _i < a_size; _i += 1)
 	{
-		upgrade_array[_i][U_A2.VALUE] = 1;
+		// clothing initiates at 1
+		if (upgrade_array[_i][U_A2.ROW] == 1)
+		{
+			upgrade_array[_i][U_A2.VALUE] = 0;
+		}
+		// Others at 1
+		else upgrade_array[_i][U_A2.VALUE] = 1;
 	}
 	// Dice
 	for (var _i = 0; _i < a_size; _i += 1)
@@ -59,7 +65,6 @@ upgrade_array_reset = function(){
 	}	
 }
 upgrade_array_reset();
-	
 
 
 cursor = noone;
@@ -119,7 +124,7 @@ dice_hole_yoffset = UNIT*0.8;
 	// Player
 	sidebar2_item_x = floor(sidebar_x + (sidebar_xscale * sprite_get_width(sidebar_sprite) / 2));
 	sidebar2_item_y = floor(sidebar_y2 + (sidebar_yscale * sprite_get_height(sidebar_sprite) / 2) + UNIT*1);
-	sidebar2_item_sprite = s_Player;
+	sidebar2_item_sprite = s_Player00;
 	
 	// Button
 	button_sprite = s_UIButton;
@@ -133,6 +138,66 @@ dice_hole_yoffset = UNIT*0.8;
 	button_text_y = sidebar_button_y + (sidebar_button_yscale*sprite_get_height(sidebar_sprite))/2;
 	button_text = "Roll the dice!";
 	button_text_color = make_color_rgb(173,121,92);
+#endregion
+
+#region BODY SPRITE ASSIGNMENTS
+	get_body_sprite = function(){
+	var _val = upgrade_array[U_A1.BODY][U_A2.VALUE];
+	switch (_val)
+	{
+		case 0:
+			return s_Player00;
+		break;
+		case 1:
+			return s_Player01;
+		break;
+		case 2:
+			return s_Player02;
+		break;
+		case 3:	
+			return s_Player03;
+		break;
+		case 4:
+			return s_Player04;
+		break;
+		case 5:
+			return s_Player05;
+		break;
+		case 6:
+			return s_Player06;
+		break;
+	}
+	}
+#endregion
+
+#region HAT SPRITE ASSIGNMENTS
+	get_hat_sprite = function(){
+	var _val = upgrade_array[U_A1.HAT][U_A2.VALUE];
+	switch (_val)
+	{
+		case 0:
+			return s_Hat00;
+		break;
+		case 1:
+			return s_Hat01;
+		break;
+		case 2:
+			return s_Hat02;
+		break;
+		case 3:	
+			return s_Hat03;
+		break;
+		case 4:
+			return s_Hat04;
+		break;
+		case 5:
+			return s_Hat05;
+		break;
+		case 6:
+			return s_Hat06;
+		break;
+	}
+	}
 #endregion
 
 #region Rolling variables
@@ -377,7 +442,6 @@ perform_step = function(){
 					}
 					with (_dice_id)
 					{
-						animate_pause(anim_struct);
 						dice_emphasize();
 						var _roll = anim_struct.anim_index + 1;
 						var _slot = slot;

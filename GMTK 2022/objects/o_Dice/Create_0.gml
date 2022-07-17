@@ -50,14 +50,16 @@ dice_drop = function(){
 dice_lock = function(){
 	state = DICE_STATE.LOCKED;
 	squash_scale(scale_struct,1.25,1.25);	
+	animate_unpause(anim_struct);
 }
 
 dice_emphasize = function(){
+	animate_pause(anim_struct);
 	squash_scale(scale_struct,1.5,1.5);	
 }
 
 anim_struct = animate_create(sprite_index);
-//animate_pause(anim_struct);
+animate_pause(anim_struct);
 
 perform_step = function(){
 	scale_step(scale_struct,SCALE_MED);
