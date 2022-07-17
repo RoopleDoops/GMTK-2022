@@ -6,7 +6,9 @@ instance_create_depth(0,0,0,o_UIManager);
 instance_create_depth(0,0,0,o_UpgradeManager);
 instance_create_depth(0,0,0,o_Transition);
 
-
+song = audio_play_sound(bgm_Garden,100,true);
+audio_sound_gain(song,0,0);
+audio_sound_gain(song,100,300);
 
 get_next_room = function(){
 	switch (global.level)

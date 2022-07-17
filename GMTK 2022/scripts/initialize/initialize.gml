@@ -11,4 +11,4 @@ window_set_size(GAME_WIDTH*2,GAME_HEIGHT*2);
 
 randomize();
 
-#macro START_ROOM r_Upgrade
+#macro START_ROOM r_L1

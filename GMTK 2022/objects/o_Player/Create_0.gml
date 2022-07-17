@@ -20,12 +20,97 @@ i_time_max = 90;
 o_UIManager.update_health();
 
 // Shooting
+gun = o_UpgradeManager.upgrade_get_value(U_A1.GUN);
+switch (gun)
+{
+	case 1: // SQUIRT GUN
+		shoot_cd = 30;
+		shoot_speed = 4;
+		shoot_damage = 15;
+		shoot_knock = 0;
+		shoot_spread = 20;
+		shoot_size = 1;
+		shoot_sprite = s_Bullet;
+		shoot_num = 1;
+		shoot_shake = 0;
+		shoot_shake_dur = 0;
+	break;
+	case 2: // PISTOL
+		shoot_cd = 20;
+		shoot_speed = 4;
+		shoot_damage = 15;
+		shoot_knock = 0;
+		shoot_spread = 12;
+		shoot_size = 1;
+		shoot_sprite = s_Bullet;
+		shoot_num = 1;
+		shoot_shake = 0;
+		shoot_shake_dur = 0;
+	break;
+	case 3: // SHOTGUN
+		shoot_cd = 45;
+		shoot_speed = 4;
+		shoot_damage = 15;
+		shoot_knock = 0.5;
+		shoot_spread = 0;
+		shoot_size = 1;
+		shoot_sprite = s_BulletSmall;
+		shoot_num = 5;
+		shoot_shake = 0;
+		shoot_shake_dur = 0;
+	break;
+	case 4: // MACHINE GUN
+		shoot_cd = 5;
+		shoot_speed = 4;
+		shoot_damage = 8;
+		shoot_knock = 0;
+		shoot_spread = 24;
+		shoot_size = 1;
+		shoot_sprite = s_BulletSmall;
+		shoot_num = 1;
+		shoot_shake = 0;
+		shoot_shake_dur = 0;
+	break;
+	case 5: // SNIPER
+		shoot_cd = 60;
+		shoot_speed = 24;
+		shoot_damage = 50;
+		shoot_knock = 4;
+		shoot_spread = 0;
+		shoot_size = 2;
+		shoot_sprite = s_Bullet;
+		shoot_num = 1;
+		shoot_shake = 1;
+		shoot_shake_dur = 10;
+	break;
+	case 6: // CANNON
+		shoot_cd = 90;
+		shoot_speed = 2.5;
+		shoot_damage = 100;
+		shoot_knock = 8;
+		shoot_spread = 0;
+		shoot_size = 3;
+		shoot_sprite = s_BulletBig;
+		shoot_num = 1;
+		shoot_shake = 2;
+		shoot_shake_dur = 15;
+	break;
+	default: // EDGE CASE
+		show_debug_message("o_Player gun type out of range!");
+		shoot_cd = 30;
+		shoot_speed = 4;
+		shoot_damage = 15;
+		shoot_knock = 0;
+		shoot_spread = 20;
+		shoot_size = 1;
+		shoot_sprite = s_Bullet;
+		shoot_num = 1;
+		shoot_shake = 0;
+		shoot_shake_dur = 0;
+	break;
+		
+}
 shoot_time = 0;
-shoot_cd = 15;
-shoot_speed = UNIT/8;
-shoot_damage = 1;
-shoot_knock = UNIT/128;
-accuracy = 24 - (o_UpgradeManager.upgrade_get_value(U_A1.GUN) * 4);
 
 // Drawing
 hat_sprite = o_UpgradeManager.get_hat_sprite();
@@ -43,8 +128,6 @@ boot_sprite = o_UpgradeManager.get_boot_sprite();
 hand_x = x;
 hand_y = y;
 hand_yoffset = -4;
-shoot_xoffset = 11;
-shoot_yoffset = -2;
 hand_angle = 0;
 debug = false;
 dir_change_cd = 0;
@@ -123,6 +206,7 @@ player_win = function(){
 health_change = function(_amount){
 	if (i_time == 0)
 	{
+		o_Camera.camera_screen_shake(15,1);
 		i_time = i_time_max;
 		alpha = 0.5;
 		shader_time = shader_time_max;
@@ -146,22 +230,44 @@ process_shoot = function(){
 shoot_bullet = function(){
 	squash_scale(scale_struct,1.1,0.9);
 	var _speed = shoot_speed;
-	var _acc = irandom_range(-accuracy,accuracy);
+	var _acc = irandom_range(-shoot_spread,shoot_spread);
 	var _dir = dir;//point_direction(x,BBOX_MIDDLE,hand_x,hand_y);
 	var _shootx = barrel_x;
 	var _shooty = barrel_y;
-	var _bullet = instance_create_depth(_shootx,_shooty,depth,o_Bullet);
 	var _shootdmg = shoot_damage;
-	with (_bullet)
+	var _shootsize = shoot_size;
+	var _shootsprite = shoot_sprite;
+	var _bnum = shoot_num;
+	for (var _i = 0; _i < _bnum; _i += 1)
 	{
-		draw_angle = _dir+_acc;
-		x_move = lengthdir_x(_speed,draw_angle);
-		y_move = lengthdir_y(_speed,draw_angle);
-		damage = _shootdmg;
+		switch (_i)
+		{
+			case 0: var _ang = 0; break;
+			case 1: var _ang = 15; break;
+			case 2: var _ang = 30; break;
+			case 3: var _ang = -15; break;
+			case 4: var _ang = -30; break;
+			default: var _ang = 0; break;
+		}
+		var _bullet = instance_create_depth(_shootx,_shooty,depth,o_Bullet);
+		with (_bullet)
+		{
+			sprite_index = _shootsprite;
+			image_xscale = _shootsize;
+			image_yscale = _shootsize;
+			draw_angle = _dir+_acc+_ang;
+			x_move = lengthdir_x(_speed,draw_angle);
+			y_move = lengthdir_y(_speed,draw_angle);
+			damage = _shootdmg;
+		}
 	}
+	
+	// Shake
+	if (shoot_shake > 0) o_Camera.camera_screen_shake(shoot_shake_dur,shoot_shake);
+	
 	// Knockback
-	//x_knock += -lengthdir_x(shoot_knock,_dir);
-	//y_knock += -lengthdir_y(shoot_knock,_dir);
+	x_knock += -lengthdir_x(shoot_knock,_dir);
+	y_knock += -lengthdir_y(shoot_knock,_dir);
 }
 
 update_hand_position = function(){
