@@ -61,7 +61,19 @@ switch (gun)
 		shoot_shake = 0;
 		shoot_shake_dur = 0;
 	break;
-	case 4: // SNIPER
+	case 4: // CANNON
+		shoot_cd = 90;
+		shoot_speed = 2;
+		shoot_damage = 100;
+		shoot_knock = 8;
+		shoot_spread = 0;
+		shoot_size = 3;
+		shoot_sprite = s_BulletBig;
+		shoot_num = 1;
+		shoot_shake = 2;
+		shoot_shake_dur = 15;
+	break;
+	case 5: // SNIPER
 		shoot_cd = 60;
 		shoot_speed = 8;
 		shoot_damage = 50;
@@ -73,7 +85,7 @@ switch (gun)
 		shoot_shake = 1;
 		shoot_shake_dur = 10;
 	break;
-	case 5: // MACHINE GUN
+	case 6: // MACHINE GUN
 		shoot_cd = 5;
 		shoot_speed = 4;
 		shoot_damage = 8;
@@ -84,18 +96,6 @@ switch (gun)
 		shoot_num = 1;
 		shoot_shake = 0;
 		shoot_shake_dur = 0;
-	break;
-	case 6: // CANNON
-		shoot_cd = 90;
-		shoot_speed = 2;
-		shoot_damage = 100;
-		shoot_knock = 8;
-		shoot_spread = 0;
-		shoot_size = 3;
-		shoot_sprite = s_BulletBig;
-		shoot_num = 1;
-		shoot_shake = 2;
-		shoot_shake_dur = 15;
 	break;
 	default: // EDGE CASE
 		show_debug_message("o_Player gun type out of range!");

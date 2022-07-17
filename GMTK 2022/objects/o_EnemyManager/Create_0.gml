@@ -14,6 +14,7 @@ enemy_count_update = function(){
 	if (enemy_num <= 0) 
 	{
 		audio_play_sound(sfx_dice06,50,false);
+		o_ParticleManager.make_confetti();
 		state = EMGR_STATE.WIN;
 	}
 }

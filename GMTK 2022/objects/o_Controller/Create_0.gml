@@ -56,6 +56,7 @@ perform_step = function(){
 		new_room = false;
 		instance_create_depth(0,0,depth,o_Camera);
 		o_Camera.camera_snap();
+		instance_create_depth(0,0,depth,o_ParticleManager);
 		if (instance_exists(o_GridManager))
 		{
 			with (o_GridManager)
