@@ -1,4 +1,5 @@
 event_inherited();
+change_sprite = s_Enemy2Hit;
 friendly_sprite = s_Friendly2;
 move_speed_base = UNIT/20;
 move_speed = move_speed_base;

@@ -1,7 +1,7 @@
 {
   "spriteId": {
-    "name": "s_UpgradeCursor",
-    "path": "sprites/s_UpgradeCursor/s_UpgradeCursor.yy",
+    "name": "s_Cursor",
+    "path": "sprites/s_Cursor/s_Cursor.yy",
   },
   "solid": false,
   "visible": true,

@@ -11,7 +11,7 @@ enum U_A1
 	SPEED = 1,
 	GUN,
 	HAT,
-	TORSO,
+	BODY,
 	SFX
 }
 enum U_A2
@@ -28,9 +28,9 @@ depth = 0;
 upgrade_array = [];
 upgrade_array[U_A1.HEALTH][U_A2.TEXT] = "HEALTH";
 upgrade_array[U_A1.SPEED][U_A2.TEXT] = "SPEED";
-upgrade_array[U_A1.GUN][U_A2.TEXT] = "AIM";
+upgrade_array[U_A1.GUN][U_A2.TEXT] = "GUN";
 upgrade_array[U_A1.HAT][U_A2.TEXT] = "HAT";
-upgrade_array[U_A1.TORSO][U_A2.TEXT] = "TORSO";
+upgrade_array[U_A1.BODY][U_A2.TEXT] = "BODY";
 upgrade_array[U_A1.SFX][U_A2.TEXT] = "SFX";
 a_size = array_length(upgrade_array);
 // Row
@@ -44,7 +44,13 @@ upgrade_array_reset = function(){
 	// Value
 	for (var _i = 0; _i < a_size; _i += 1)
 	{
-		upgrade_array[_i][U_A2.VALUE] = 1;
+		// clothing initiates at 1
+		if (upgrade_array[_i][U_A2.ROW] == 1)
+		{
+			upgrade_array[_i][U_A2.VALUE] = 0;
+		}
+		// Others at 1
+		else upgrade_array[_i][U_A2.VALUE] = 1;
 	}
 	// Dice
 	for (var _i = 0; _i < a_size; _i += 1)
@@ -59,10 +65,10 @@ upgrade_array_reset = function(){
 	}	
 }
 upgrade_array_reset();
-	
 
 
 cursor = noone;
+model = noone;
 
 #region Menu
 state = UPGRADE_STATE.OFF;
@@ -119,7 +125,7 @@ dice_hole_yoffset = UNIT*0.8;
 	// Player
 	sidebar2_item_x = floor(sidebar_x + (sidebar_xscale * sprite_get_width(sidebar_sprite) / 2));
 	sidebar2_item_y = floor(sidebar_y2 + (sidebar_yscale * sprite_get_height(sidebar_sprite) / 2) + UNIT*1);
-	sidebar2_item_sprite = s_Player;
+	sidebar2_item_sprite = s_Player00;
 	
 	// Button
 	button_sprite = s_UIButton;
@@ -134,6 +140,113 @@ dice_hole_yoffset = UNIT*0.8;
 	button_text = "Roll the dice!";
 	button_text_color = make_color_rgb(173,121,92);
 #endregion
+
+#region BODY SPRITE ASSIGNMENTS
+	get_body_sprite = function(){
+	var _val = upgrade_array[U_A1.BODY][U_A2.VALUE];
+	switch (_val)
+	{
+		case 0:
+			return s_Player00;
+		break;
+		case 1:
+			return s_Player01;
+		break;
+		case 2:
+			return s_Player02;
+		break;
+		case 3:	
+			return s_Player03;
+		break;
+		case 4:
+			return s_Player04;
+		break;
+		case 5:
+			return s_Player05;
+		break;
+		case 6:
+			return s_Player06;
+		break;
+	}
+	}
+#endregion
+
+#region HAT SPRITE ASSIGNMENTS
+	get_hat_sprite = function(){
+	var _val = upgrade_array[U_A1.HAT][U_A2.VALUE];
+	switch (_val)
+	{
+		case 0:
+			return s_Hat00;
+		break;
+		case 1:
+			return s_Hat01;
+		break;
+		case 2:
+			return s_Hat02;
+		break;
+		case 3:	
+			return s_Hat03;
+		break;
+		case 4:
+			return s_Hat04;
+		break;
+		case 5:
+			return s_Hat05;
+		break;
+		case 6:
+			return s_Hat06;
+		break;
+	}
+	}
+#endregion
+
+#region GUN SPRITE ASSIGNMENTS
+	get_gun_sprite = function(){
+	var _val = upgrade_array[U_A1.GUN][U_A2.VALUE];
+	switch (_val)
+	{
+		case 1: return s_Hand01;break;
+		case 2: return s_Hand02;break;
+		case 3:	return s_Hand03;break;
+		case 4: return s_Hand04;break;
+		case 5:	return s_Hand05;break;
+		case 6: return s_Hand06;break;
+	}
+	}
+#endregion
+
+#region BOOT SPRITE ASSIGNMENTS
+	get_boot_sprite = function(){
+	var _val = upgrade_array[U_A1.SPEED][U_A2.VALUE];
+	switch (_val)
+	{
+		case 6: return s_Boot06;break;
+		default: return s_Boot01;break;
+	}
+	}
+#endregion
+
+create_player_model = function(){
+	model = instance_create_depth(sidebar2_item_x,sidebar2_item_y,depth,o_PlayerModel);
+	with (model) squash_scale(1.2,0.8);
+}
+
+update_player_model = function(_array_slot){
+	var _sprite = noone;
+	if (_array_slot == U_A1.HAT) var _sprite = get_hat_sprite(); 
+	else if (_array_slot == U_A1.BODY) var _sprite = get_body_sprite();
+	else if (_array_slot == U_A1.GUN) var _sprite = get_gun_sprite();
+	else if (_array_slot == U_A1.SPEED) var _sprite = get_boot_sprite(); 
+	with (model)
+	{
+		squash_scale(scale_struct,1.2,0.8);
+		if (_array_slot == U_A1.HAT) hat_sprite = _sprite;
+		else if (_array_slot == U_A1.BODY) animate_set_sprite(astruct_body,_sprite);
+		else if (_array_slot == U_A1.GUN) hand_sprite = _sprite;
+		else if (_array_slot == U_A1.SPEED) boot_sprite = _sprite;
+	}
+}
 
 #region Rolling variables
 rolling_time = 0;
@@ -193,6 +306,7 @@ roll_dice = function(){
 
 upgrade_start = function(){
 	upgrade_array_reset();
+	create_player_model();
 	state = UPGRADE_STATE.ON;
 	create_dice();
 	cursor = instance_create_depth(floor(mouse_x),floor(mouse_y),DEPTH_CURSOR,o_UpgradeCursor);
@@ -201,7 +315,7 @@ upgrade_start = function(){
 upgrade_end = function(){
 	state = UPGRADE_STATE.OFF;
 	if (instance_exists(cursor)) instance_destroy(cursor);
-	room_change(r_1);
+	room_change(o_Controller.get_next_room());
 }
 
 upgrade_get_value = function(_attribute){
@@ -341,7 +455,7 @@ draw_sidebar = function(){
 	draw_text(sidebar2_text_x,sidebar2_text_y,sidebar2_text);
 	// draw sidebar dice
 	//draw sidebar player
-	draw_sprite_ext(sidebar2_item_sprite,0,sidebar2_item_x,sidebar2_item_y,2,2,0,image_blend,draw_alpha);
+	//draw_sprite_ext(sidebar2_item_sprite,0,sidebar2_item_x,sidebar2_item_y,2,2,0,image_blend,draw_alpha);
 	//Button
 	draw_sprite_ext(button_sprite,button_index,sidebar_button_x,sidebar_button_y,sidebar_xscale,sidebar_button_yscale,0,image_blend,draw_alpha);
 	draw_set_color(button_text_color);
@@ -377,12 +491,12 @@ perform_step = function(){
 					}
 					with (_dice_id)
 					{
-						animate_pause(anim_struct);
 						dice_emphasize();
 						var _roll = anim_struct.anim_index + 1;
 						var _slot = slot;
 					}
 					upgrade_array[_slot][U_A2.VALUE] = _roll;
+					update_player_model(_slot);
 					rolling_count += 1;
 					if (rolling_count == global.level) rolling_time = rolling_time_final;
 					else rolling_time = rolling_time_space;

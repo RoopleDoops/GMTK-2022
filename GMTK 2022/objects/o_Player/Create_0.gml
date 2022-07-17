@@ -28,6 +28,8 @@ shoot_knock = UNIT/128;
 accuracy = 24 - (o_UpgradeManager.upgrade_get_value(U_A1.GUN) * 4);
 
 // Drawing
+hat_sprite = o_UpgradeManager.get_hat_sprite();
+astruct_body = animate_create(o_UpgradeManager.get_body_sprite());
 alpha = 1;
 shader_create_color_flash();
 shader_color = [1.0, 0.0, 0.0, 0.5];
@@ -36,7 +38,8 @@ scale_struct = scale_create();
 hand_behind = false;
 hand_dist_x = UNIT*0.25;
 hand_dist_y = UNIT*0.25;
-hand_sprite = s_Hand;
+hand_sprite = o_UpgradeManager.get_gun_sprite();
+boot_sprite = o_UpgradeManager.get_boot_sprite();
 hand_x = x;
 hand_y = y;
 hand_yoffset = -4;
@@ -103,6 +106,17 @@ player_destroy = function(){
 		o_Controller.room_reset();
 		state = P_STATE.DEAD;
 		depth = -14001;
+	}
+}
+
+player_win = function(){
+	if (state != P_STATE.DEAD)
+	{
+		i_time = 0;
+		alpha = 1;
+		shader_time = 0;
+		squash_scale(scale_struct,1,1);
+		state = P_STATE.DEAD;
 	}
 }
 
@@ -220,6 +234,7 @@ perform_step = function(){
 		if (i_time > 0) i_time -=1;
 		else alpha = 1;
 		if (shader_time > 0) shader_time -= 1;
+		animate_step(astruct_body);
 		scale_step(scale_struct,SCALE_MED);
 		if (dir_change_cd > 0) dir_change_cd -= 1;
 		if (image_xscale != angle_dir_hori(dir)) 

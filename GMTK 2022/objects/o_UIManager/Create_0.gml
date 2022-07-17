@@ -17,7 +17,7 @@ alpha_accel = 0.05;
 
 offset_x = UNIT/4;
 offset_y = UNIT/4;
-space_x = UNIT/2;
+space_x = 20;
 hp_max = 6;
 hp = hp_max;
 // Initialize health array

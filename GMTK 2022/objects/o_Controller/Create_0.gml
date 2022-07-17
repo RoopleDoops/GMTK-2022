@@ -8,6 +8,31 @@ instance_create_depth(0,0,0,o_Transition);
 
 
 
+get_next_room = function(){
+	switch (global.level)
+	{
+		case 2:
+			return r_L1;
+		break;
+		case 3:
+			return r_L2;
+		break;
+		case 4:
+			return r_L3;
+		break;
+		case 5:
+			return r_L4;
+		break;
+		case 6:
+			return r_L5;
+		break;
+		default:
+			show_debug_message("No case for global.level at "+string(global.level));
+			return r_Title;
+		break;
+	}
+}
+
 enable_input = function(){
 	global.input_enabled = true;
 }

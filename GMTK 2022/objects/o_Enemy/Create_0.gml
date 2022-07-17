@@ -60,11 +60,12 @@ path_time = 0;
 path_time_max = 15;
 
 // Drawing
+change_sprite = s_EnemyHit;
 friendly_sprite = s_Friendly;
 shader_create_color_flash();
 shader_color = [0.0, 0.0, 1.0, 0.5];
 scale_struct = scale_create();
-hp_alpha_max = 0.8;
+hp_alpha_max = 0.9;
 hp_alpha = 0;
 hp_alpha_accel = 0.2;
 hp_draw_time = 0;
@@ -229,7 +230,8 @@ health_change = function(_amount){
 enemy_destroy = function(){
 	var _friendly = instance_create_depth(x,y,depth,o_Friendly);
 	_friendly.image_xscale = image_xscale;
-	_friendly.sprite_index = friendly_sprite;
+	_friendly.sprite_setup(change_sprite,friendly_sprite);
+	o_EnemyManager.enemy_count_update();
 	instance_destroy();	
 }
 
