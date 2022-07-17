@@ -1,6 +1,6 @@
 {
   "compression": 0,
-  "volume": 1.0,
+  "volume": 0.59,
   "preload": false,
   "bitRate": 128,
   "sampleRate": 44100,
@@ -10,8 +10,8 @@
     "name": "audiogroup_default",
     "path": "audiogroups/audiogroup_default",
   },
-  "soundFile": "sfx_gun06.ogg",
-  "duration": 0.311604,
+  "soundFile": "sfx_gun06.wav",
+  "duration": 0.379819,
   "parent": {
     "name": "Sounds",
     "path": "folders/Sounds.yy",

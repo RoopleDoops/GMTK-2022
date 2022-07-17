@@ -56,7 +56,7 @@ upgrade_array_reset = function(){
 			// sound starts at 2
 			if (_i == U_A1.SFX) upgrade_array[_i][U_A2.VALUE] = 2;
 			// Clothes at 0
-			else upgrade_array[_i][U_A2.VALUE] = 1;
+			else upgrade_array[_i][U_A2.VALUE] = 0;
 		}
 		// Others at 1
 		else upgrade_array[_i][U_A2.VALUE] = 1;
@@ -147,7 +147,7 @@ dice_hole_yoffset = UNIT*0.8;
 	button_text_x = sidebar_button_x + (sidebar_xscale*sprite_get_width(sidebar_sprite))/2;
 	button_text_y = sidebar_button_y + (sidebar_button_yscale*sprite_get_height(sidebar_sprite))/2;
 	button_text = "Roll the dice!";
-	button_text_color = make_color_rgb(173,121,92);
+	button_text_color = make_color_rgb(80,48,48);
 #endregion
 
 #region BODY SPRITE ASSIGNMENTS
@@ -440,6 +440,23 @@ create_dice = function(){
 		}
 		instance_create_layer(_x,_y,"L_Dice",o_Dice);
 	}
+	// Auto assign once at 6 dice
+	if (global.dice_num == 6)
+	{
+		var _dicenum = instance_number(o_Dice);
+		for (var _i = 0; _i < _dicenum; _i += 1)
+		{
+			_dice = instance_find(o_Dice,_i);
+			var _x = get_slot_x(_i);
+			var _y = get_slot_y(_i);
+			with (_dice)
+			{
+				x = _x;
+				y = _y;
+				dice_drop();
+			}
+		}
+	}
 #endregion
 }
 
@@ -535,6 +552,13 @@ perform_step = function(){
 					{
 						dice_emphasize();
 						var _roll = anim_struct.anim_index + 1;
+						if (slot < 3) && (_roll == 1)
+						{
+							// Reroll 1's on first row only (one time)
+							var _newroll = irandom_range(1,6);
+							anim_struct.anim_index = _newroll - 1;
+							_roll = _newroll;
+						}
 						var _slot = slot;
 					}
 					switch (_roll)

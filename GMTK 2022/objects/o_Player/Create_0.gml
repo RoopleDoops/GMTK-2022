@@ -26,7 +26,7 @@ gun = o_UpgradeManager.upgrade_get_value(U_A1.GUN);
 switch (gun)
 {
 	case 1: // SQUIRT GUN
-		shoot_cd = 20;
+		shoot_cd = 15;
 		shoot_speed = 4;
 		shoot_damage = 15;
 		shoot_knock = 0;
@@ -38,9 +38,9 @@ switch (gun)
 		shoot_shake_dur = 0;
 	break;
 	case 2: // PISTOL
-		shoot_cd = 20;
+		shoot_cd = 15;
 		shoot_speed = 4;
-		shoot_damage = 15;
+		shoot_damage = 18;
 		shoot_knock = 0;
 		shoot_spread = 12;
 		shoot_size = 1;
@@ -61,19 +61,7 @@ switch (gun)
 		shoot_shake = 0;
 		shoot_shake_dur = 0;
 	break;
-	case 4: // MACHINE GUN
-		shoot_cd = 5;
-		shoot_speed = 4;
-		shoot_damage = 8;
-		shoot_knock = 0;
-		shoot_spread = 24;
-		shoot_size = 1;
-		shoot_sprite = s_BulletSmall;
-		shoot_num = 1;
-		shoot_shake = 0;
-		shoot_shake_dur = 0;
-	break;
-	case 5: // SNIPER
+	case 4: // SNIPER
 		shoot_cd = 60;
 		shoot_speed = 8;
 		shoot_damage = 50;
@@ -84,6 +72,18 @@ switch (gun)
 		shoot_num = 1;
 		shoot_shake = 1;
 		shoot_shake_dur = 10;
+	break;
+	case 5: // MACHINE GUN
+		shoot_cd = 5;
+		shoot_speed = 4;
+		shoot_damage = 8;
+		shoot_knock = 0;
+		shoot_spread = 24;
+		shoot_size = 1;
+		shoot_sprite = s_BulletSmall;
+		shoot_num = 1;
+		shoot_shake = 0;
+		shoot_shake_dur = 0;
 	break;
 	case 6: // CANNON
 		shoot_cd = 90;
