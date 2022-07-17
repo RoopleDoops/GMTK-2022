@@ -10,14 +10,18 @@ enum E_STATE
 
 
 movement_create();
-move_speed_base = UNIT/24;
+move_speed_base = 1.2;
 charge_speed = UNIT/16;
 move_speed = move_speed_base;
 move_accel = 0.05;
 dir = 0;
-state = E_STATE.CHASE;
+state = E_STATE.IDLE;
 hp_max = 100;
 hp = hp_max;
+
+idle_time_max = 90
+; // time to wait before moving towards player
+idle_time = idle_time_max;
 
 hbox_lo = 0;
 hbox_ro = 0;
@@ -117,6 +121,8 @@ next_state = function(_state){
 }
 
 idle_step = function(){
+	if (idle_time > 0) idle_time -= 1;
+	else next_state(E_STATE.CHASE);
 	x_move = lerp(x_move,0,move_accel);
 	y_move = lerp(y_move,0,move_accel);	
 }

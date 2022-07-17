@@ -24,11 +24,11 @@ gun = o_UpgradeManager.upgrade_get_value(U_A1.GUN);
 switch (gun)
 {
 	case 1: // SQUIRT GUN
-		shoot_cd = 30;
+		shoot_cd = 20;
 		shoot_speed = 4;
 		shoot_damage = 15;
 		shoot_knock = 0;
-		shoot_spread = 20;
+		shoot_spread = 16;
 		shoot_size = 1;
 		shoot_sprite = s_Bullet;
 		shoot_num = 1;
@@ -97,11 +97,11 @@ switch (gun)
 	break;
 	default: // EDGE CASE
 		show_debug_message("o_Player gun type out of range!");
-		shoot_cd = 30;
+		shoot_cd = 25;
 		shoot_speed = 4;
 		shoot_damage = 15;
 		shoot_knock = 0;
-		shoot_spread = 20;
+		shoot_spread = 16;
 		shoot_size = 1;
 		shoot_sprite = s_Bullet;
 		shoot_num = 1;
