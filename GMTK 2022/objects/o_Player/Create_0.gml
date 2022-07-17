@@ -38,7 +38,8 @@ scale_struct = scale_create();
 hand_behind = false;
 hand_dist_x = UNIT*0.25;
 hand_dist_y = UNIT*0.25;
-hand_sprite = s_Hand;
+hand_sprite = o_UpgradeManager.get_gun_sprite();
+boot_sprite = o_UpgradeManager.get_boot_sprite();
 hand_x = x;
 hand_y = y;
 hand_yoffset = -4;
@@ -105,6 +106,17 @@ player_destroy = function(){
 		o_Controller.room_reset();
 		state = P_STATE.DEAD;
 		depth = -14001;
+	}
+}
+
+player_win = function(){
+	if (state != P_STATE.DEAD)
+	{
+		i_time = 0;
+		alpha = 1;
+		shader_time = 0;
+		squash_scale(scale_struct,1,1);
+		state = P_STATE.DEAD;
 	}
 }
 

@@ -231,6 +231,7 @@ enemy_destroy = function(){
 	var _friendly = instance_create_depth(x,y,depth,o_Friendly);
 	_friendly.image_xscale = image_xscale;
 	_friendly.sprite_setup(change_sprite,friendly_sprite);
+	o_EnemyManager.enemy_count_update();
 	instance_destroy();	
 }
 
