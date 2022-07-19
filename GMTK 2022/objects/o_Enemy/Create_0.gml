@@ -10,6 +10,7 @@ enum E_STATE
 
 
 movement_create();
+pushable = true;
 move_speed_base = 1.2;
 charge_speed = UNIT/16;
 move_speed = move_speed_base;
@@ -294,9 +295,13 @@ perform_step = function(){
 	for (var _i = 0; _i < _bulletnum; _i += 1)
 	{
 		_bullet = _list[| _i];
-		var _bdmg = _bullet.damage;
-		_damage += _bdmg;
-		_bullet.bullet_destroy();
+		with (_bullet)
+		{
+			var _bdmg = damage;
+			_damage += _bdmg;
+			hp -= 1;
+			if (hp <= 0) bullet_destroy();
+		}
 	}
 	if (_damage > 0) health_change(-_damage);
 	

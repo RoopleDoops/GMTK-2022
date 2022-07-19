@@ -3,6 +3,16 @@
 part_sys = part_system_create();
 part_system_depth(part_sys,-10000);
 
+part_water = part_type_create();
+var _part = part_water;
+	part_type_shape(_part,pt_shape_pixel);
+	part_type_size(_part,2,2,0,0);
+	part_type_color1(_part,col_blue2);
+	part_type_alpha3(_part,1,1,0);
+	part_type_direction(_part,0,359,0,0);
+	part_type_speed(_part,2,2,0,0);
+	part_type_life(_part,10,10);
+
 part_confetti = part_type_create();
 var _part = part_confetti;
 	part_type_shape(_part,pt_shape_pixel);
@@ -35,8 +45,11 @@ get_a_color = function(){
 	}
 }
 
-make_sparkle = function(_x,_y)
-{
+make_water = function(_x,_y,_num){
+	part_particles_create(part_sys,_x,_y,part_water,_num);
+}
+
+make_sparkle = function(_x,_y){
 	var _num = 16;
 	part_particles_create(part_sys,_x,_y,part_sparkle,_num);
 }
