@@ -9,8 +9,8 @@ state = EMGR_STATE.COUNT;
 enemy_num = instance_number(o_Enemy);
 
 
-enemy_count_update = function(){
-	enemy_num -=1;
+enemy_count_update = function(_num){
+	enemy_num = enemy_num + _num;
 	if (enemy_num <= 0) 
 	{
 		audio_play_sound(sfx_dice06,50,false);

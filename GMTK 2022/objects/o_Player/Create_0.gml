@@ -36,8 +36,9 @@ switch (gun)
 		shoot_num = 1;
 		shoot_shake = 0;
 		shoot_shake_dur = 0;
-		shoot_splash = 8;
-		shoot_hp = 1;
+		water_part_num = 8;
+		splash_damage = 0;
+		bullet_knock = 0;
 	break;
 	case 2: // PISTOL
 		shoot_cd = 15;
@@ -50,50 +51,54 @@ switch (gun)
 		shoot_num = 1;
 		shoot_shake = 0;
 		shoot_shake_dur = 0;
-		shoot_splash = 8;
-		shoot_hp = 1;
+		water_part_num = 8;
+		splash_damage = 0;
+		bullet_knock = 0;
 	break;
 	case 3: // SHOTGUN
 		shoot_cd = 45;
 		shoot_speed = 4;
 		shoot_damage = 15;
-		shoot_knock = 0.5;
+		shoot_knock = 0;
 		shoot_spread = 0;
 		shoot_size = 1;
 		shoot_sprite = s_BulletSmall;
 		shoot_num = 5;
 		shoot_shake = 0;
 		shoot_shake_dur = 0;
-		shoot_splash = 8;
-		shoot_hp = 1;
+		water_part_num = 8;
+		splash_damage = 0;
+		bullet_knock = 0;
 	break;
 	case 4: // CANNON
 		shoot_cd = 90;
 		shoot_speed = 2;
-		shoot_damage = 100;
-		shoot_knock = 8;
+		shoot_damage = 75;
+		shoot_knock = 4;
 		shoot_spread = 0;
 		shoot_size = 3;
 		shoot_sprite = s_BulletBig;
 		shoot_num = 1;
 		shoot_shake = 2;
 		shoot_shake_dur = 15;
-		shoot_splash = 32;
-		shoot_hp = 4;
+		water_part_num = 32;
+		splash_damage = 25;
+		bullet_knock = 4;
 	break;
 	case 5: // SNIPER
 		shoot_cd = 60;
 		shoot_speed = 8;
 		shoot_damage = 50;
-		shoot_knock = 4;
+		shoot_knock = 2;
 		shoot_spread = 0;
 		shoot_size = 2;
 		shoot_sprite = s_Bullet;
 		shoot_num = 1;
 		shoot_shake = 1;
 		shoot_shake_dur = 10;
-		shoot_splash = 16;
-		shoot_hp = 1;
+		water_part_num = 16;
+		splash_damage = 0;
+		bullet_knock = 8;
 	break;
 	case 6: // MACHINE GUN
 		shoot_cd = 5;
@@ -106,8 +111,9 @@ switch (gun)
 		shoot_num = 1;
 		shoot_shake = 0;
 		shoot_shake_dur = 0;
-		shoot_splash = 8;
-		shoot_hp = 1;
+		water_part_num = 8;
+		splash_damage = 0;
+		bullet_knock = 0;
 	break;
 	default: // EDGE CASE
 		show_debug_message("o_Player gun type out of range!");
@@ -121,8 +127,9 @@ switch (gun)
 		shoot_num = 1;
 		shoot_shake = 0;
 		shoot_shake_dur = 0;
-		shoot_splash = 8;
-		shoot_hp = 1;
+		water_part_num = 8;
+		splash_damage = 0;
+		bullet_knock = 0;
 	break;
 		
 }
@@ -260,8 +267,9 @@ shoot_bullet = function(){
 	var _shootdmg = shoot_damage;
 	var _shootsize = shoot_size;
 	var _shootsprite = shoot_sprite;
-	var _shootsplash = shoot_splash;
-	var _hp = shoot_hp;
+	var _partnum = water_part_num;
+	var _splashdmg = splash_damage;
+	var _bknock = bullet_knock;
 	var _bnum = shoot_num;
 	for (var _i = 0; _i < _bnum; _i += 1)
 	{
@@ -284,9 +292,10 @@ shoot_bullet = function(){
 			move_speed = _speed;
 			x_move = lengthdir_x(_speed,draw_angle);
 			y_move = lengthdir_y(_speed,draw_angle);
+			knock = _bknock;
 			damage = _shootdmg;
-			splash = _shootsplash;
-			hp = _hp;
+			water_part_num = _partnum;
+			splash_damage = _splashdmg;
 		}
 	}
 	

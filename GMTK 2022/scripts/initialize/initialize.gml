@@ -1,5 +1,6 @@
 global.input_enabled = true;
-global.level_start = 2;
+if (debug_mode) global.level_start = 2;
+else global.level_start = 2;
 global.level = global.level_start;
 global.level_limit = 7;
 global.dice_num = global.level_start;

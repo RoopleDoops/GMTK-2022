@@ -19,9 +19,7 @@ dir = 0;
 state = E_STATE.IDLE;
 hp_max = 100;
 hp = hp_max;
-
-idle_time_max = 90
-; // time to wait before moving towards player
+idle_time_max = 90; // time to wait before moving towards player
 idle_time = idle_time_max;
 
 hbox_lo = 0;
@@ -133,12 +131,12 @@ player_in_sights = function(_x,_y,_px,_py){
 }
 
 collision_enemy_x = function(_x_move){
-	if (place_meeting(x+_x_move,y,o_Enemy)) { x_move = 0; return 0;}
+	if (place_meeting(x+_x_move,y,o_Enemy)) { x_move = 0; x_knock = 0; return 0;}
 	else return _x_move;
 }
 
 collision_enemy_y = function(_y_move){
-	if (place_meeting(x,y+_y_move,o_Enemy)) { y_move = 0; return 0;}
+	if (place_meeting(x,y+_y_move,o_Enemy)) { y_move = 0; y_knock = 0; return 0;}
 	else return _y_move;
 }
 
@@ -235,11 +233,15 @@ health_change = function(_amount){
 }
 
 enemy_destroy = function(){
-	var _friendly = instance_create_depth(x,y,depth,o_Friendly);
-	_friendly.image_xscale = image_xscale;
-	_friendly.sprite_setup(change_sprite,friendly_sprite);
-	o_EnemyManager.enemy_count_update();
-	instance_destroy();	
+	if (state != E_STATE.DIE)
+	{
+		state = E_STATE.DIE;
+		var _friendly = instance_create_depth(x,y,depth,o_Friendly);
+		_friendly.image_xscale = image_xscale;
+		_friendly.sprite_setup(change_sprite,friendly_sprite);
+		o_EnemyManager.enemy_count_update(-1);
+		instance_destroy();	
+	}
 }
 
 perform_step = function(){
@@ -292,18 +294,26 @@ perform_step = function(){
 	var _list = ds_list_create();
 	var _bulletnum = collision_rectangle_list(hbox_left(),hbox_top(),hbox_right(),hbox_bottom(),o_Bullet,false,false,_list,false);
 	var _damage = 0;
+	var _knockdir = 0;
+	var _knock = 0;
 	for (var _i = 0; _i < _bulletnum; _i += 1)
 	{
 		_bullet = _list[| _i];
 		with (_bullet)
 		{
+			_knockdir = point_direction(x,y,x+x_move,y+y_move);
+			if (knock > _knock) _knock = knock;
 			var _bdmg = damage;
 			_damage += _bdmg;
-			hp -= 1;
-			if (hp <= 0) bullet_destroy();
+			bullet_destroy();
 		}
 	}
-	if (_damage > 0) health_change(-_damage);
+	if (_damage > 0) 
+	{
+		x_knock += lengthdir_x(_knock,_knockdir);
+		y_knock += lengthdir_y(_knock,_knockdir);
+		health_change(-_damage);
+	}
 	
 	// Player Collision
 	if ((state == E_STATE.CHASE) || (state == E_STATE.CHARGE)) && (place_meeting(x,y,o_Player))

@@ -46,7 +46,7 @@ for (var _i = 0; _i < a_size; _i += 1)
 	else upgrade_array[_i][U_A2.ROW] = 1;
 }
 	
-upgrade_array_reset = function(){
+upgrade_array_reset = function(_slotreset = true){
 	// Value
 	for (var _i = 0; _i < a_size; _i += 1)
 	{
@@ -61,10 +61,13 @@ upgrade_array_reset = function(){
 		// Others at 1
 		else upgrade_array[_i][U_A2.VALUE] = 1;
 	}
-	// Dice
-	for (var _i = 0; _i < a_size; _i += 1)
+	if (_slotreset)
 	{
-		upgrade_array[_i][U_A2.SLOTTED] = 0;
+		// Dice SLOT
+		for (var _i = 0; _i < a_size; _i += 1)
+		{
+			upgrade_array[_i][U_A2.SLOTTED] = 0;
+		}
 	}
 	// ROLLED
 	// Dice
@@ -275,7 +278,7 @@ update_player_model = function(_array_slot){
 #region Rolling variables
 rolling_time = 0;
 rolling_time_space = 60;
-rolling_time_final = 180;
+rolling_time_final = 90;
 #endregion
 
 collision_button = function(_x,_y){
@@ -341,10 +344,11 @@ roll_dice = function(){
 
 
 upgrade_start = function(){
-	upgrade_array_reset();
+	upgrade_array_reset(false); // do not reset slots
 	create_player_model();
 	state = UPGRADE_STATE.ON;
 	create_dice();
+	remember_dice();
 	cursor = instance_create_depth(floor(mouse_x),floor(mouse_y),DEPTH_CURSOR,o_UpgradeCursor);
 }
 
@@ -397,7 +401,7 @@ collision_slot_array = function(_x1,_y1,_x2,_y2){
 		var _x = slot_array[_i][AXIS.X];
 		var _y = slot_array[_i][AXIS.Y];
 		var _closed_slot = upgrade_array[_i][U_A2.SLOTTED];
-		if (point_in_rectangle(_x,_y,_x1-8,_y1-8,_x2+8,_y2+8)) && (!_closed_slot)
+		if (point_in_rectangle(_x,_y,_x1-32,_y1-32,_x2+32,_y2+32)) && (!_closed_slot)
 		{
 			var _sfx = put_sound_playing
 			if (audio_exists(_sfx)) && (audio_is_playing(_sfx))
@@ -441,12 +445,40 @@ create_dice = function(){
 		instance_create_layer(_x,_y,"L_Dice",o_Dice);
 	}
 	// Auto assign once at 6 dice
-	if (global.dice_num == 6)
+	//if (global.dice_num == 6)
+	//{
+	//	var _dicenum = instance_number(o_Dice);
+	//	for (var _i = 0; _i < _dicenum; _i += 1)
+	//	{
+	//		_dice = instance_find(o_Dice,_i);
+	//		var _x = get_slot_x(_i);
+	//		var _y = get_slot_y(_i);
+	//		with (_dice)
+	//		{
+	//			x = _x;
+	//			y = _y;
+	//			dice_drop();
+	//		}
+	//	}
+	//}
+#endregion
+}
+
+remember_dice = function(){
+	var _dicequeue = ds_queue_create();
+	var _dicenum = instance_number(o_Dice);
+	for (var _i = 0; _i < _dicenum; _i += 1)
 	{
-		var _dicenum = instance_number(o_Dice);
-		for (var _i = 0; _i < _dicenum; _i += 1)
+		var _dice = instance_find(o_Dice,_i);
+		ds_queue_enqueue(_dicequeue,_dice);
+	}	
+	var _slotnum = 6;
+	for (var _i = 0; _i < _slotnum; _i += 1)
+	{
+		if (upgrade_array[_i][U_A2.SLOTTED] == true)
 		{
-			_dice = instance_find(o_Dice,_i);
+			upgrade_array[_i][U_A2.SLOTTED] = false;
+			var _dice = ds_queue_dequeue(_dicequeue);
 			var _x = get_slot_x(_i);
 			var _y = get_slot_y(_i);
 			with (_dice)
@@ -457,7 +489,7 @@ create_dice = function(){
 			}
 		}
 	}
-#endregion
+	ds_queue_destroy(_dicequeue);
 }
 
 draw_menu_bg = function(){
