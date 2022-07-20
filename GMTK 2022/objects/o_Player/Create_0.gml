@@ -22,7 +22,7 @@ o_UIManager.update_health();
 // Shooting
 gun_sfx = o_UpgradeManager.get_sfx();
 gun_sound_play = noone;
-gun = o_UpgradeManager.upgrade_get_value(U_A1.GUN);
+gun = 5;//o_UpgradeManager.upgrade_get_value(U_A1.GUN);
 switch (gun)
 {
 	case 1: // SQUIRT GUN
@@ -334,6 +334,7 @@ get_cursor_y = function(){
 
 perform_step = function(){
 	get_input();
+	
 	
 	#region Movement
 	x_move = lerp(x_move,move_hori*move_speed,move_accel);

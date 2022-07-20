@@ -17,7 +17,7 @@ enum AXIS
 
 
 // Depth
-#macro DEPTH_CURSOR -15000
+#macro DEPTH_CURSOR -13000
 
 
 // BBOX

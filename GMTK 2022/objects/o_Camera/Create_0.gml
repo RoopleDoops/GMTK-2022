@@ -61,19 +61,42 @@ perform_step = function(){
 	
 	if (instance_exists(follow))
 	{
-		//if (x < follow.x - cam_x_buffer) xTo = follow.x-cam_x_buffer;
-		//else if (x > follow.x + cam_x_buffer) xTo = follow.x+cam_x_buffer;
-		//if (y < follow.y - cam_y_buffer) yTo = follow.y-cam_y_buffer;
-		//else if (y > follow.y + cam_y_buffer) yTo = follow.y+cam_y_buffer;
-		xTo = ((follow.x*2) + mouse_x)/3;
-		yTo = ((follow.y*2) + mouse_y)/3;
+		// Must round these or camera will lerp back and forth between one pixel when near target
+		xTo = round(((follow.x*2) + o_Cursor.x)/3);
+		yTo = round(((follow.y*2) + o_Cursor.y)/3);
+		x_move = lerp(x,xTo,move_accel)-x;
+		y_move = lerp(y,yTo,move_accel)-y;
 	}
 	
-	x = lerp(x,xTo,move_accel)+shake_x;
-	y = lerp(y,yTo,move_accel)+shake_y;
+	x_move = clamp(x_move+x_knock,-TERM_VELOC,TERM_VELOC);
+	x_move_bank += x_move;
+	var _x_move = sign(x_move_bank) * abs(floor(x_move_bank));
+	x_move_bank -= _x_move;
+	x_knock = 0;
+	
+	y_move = clamp(y_move+y_knock,-TERM_VELOC,TERM_VELOC);
+	y_move_bank += y_move;
+	var _y_move = sign(y_move_bank) * abs(floor(y_move_bank));
+	y_move_bank -= _y_move;
+	y_knock = 0;
+	
+	x = x + _x_move;
+	y = y + _y_move;
+	
+	x = clamp(x,0,room_width) + shake_x;
+	y = clamp(y,0,room_height)  + shake_y;
 	
 	
+	#region Old camera
+	//if (instance_exists(follow))
+	//{
+	//	xTo = ((follow.x*2) + mouse_x)/3;
+	//	yTo = ((follow.y*2) + mouse_y)/3;
+	//}
 	
+	//x = lerp(x,xTo,move_accel)+shake_x;
+	//y = lerp(y,yTo,move_accel)+shake_y;
+	#endregion
 	
 	camera_set_view_pos(cam,round(x-cam_x_half),round(y-cam_y_half));
 }

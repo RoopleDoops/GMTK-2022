@@ -49,6 +49,7 @@
     {"id":{"name":"r_L4","path":"rooms/r_L4/r_L4.yy",},"order":6,},
     {"id":{"name":"sfx_dice05","path":"sounds/sfx_dice05/sfx_dice05.yy",},"order":14,},
     {"id":{"name":"sfx_gun04","path":"sounds/sfx_gun04/sfx_gun04.yy",},"order":7,},
+    {"id":{"name":"r_LTest","path":"rooms/r_LTest/r_LTest.yy",},"order":10,},
     {"id":{"name":"o_DebugManager","path":"objects/o_DebugManager/o_DebugManager.yy",},"order":0,},
     {"id":{"name":"s_Player02","path":"sprites/s_Player02/s_Player02.yy",},"order":9,},
     {"id":{"name":"math_scripts","path":"scripts/math_scripts/math_scripts.yy",},"order":2,},
@@ -140,6 +141,7 @@
     {"roomId":{"name":"r_Loss","path":"rooms/r_Loss/r_Loss.yy",},},
     {"roomId":{"name":"r_L5","path":"rooms/r_L5/r_L5.yy",},},
     {"roomId":{"name":"r_L6","path":"rooms/r_L6/r_L6.yy",},},
+    {"roomId":{"name":"r_LTest","path":"rooms/r_LTest/r_LTest.yy",},},
   ],
   "Folders": [
     {"folderPath":"folders/Sprites.yy","order":1,"resourceVersion":"1.0","name":"Sprites","tags":[],"resourceType":"GMFolder",},

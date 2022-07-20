@@ -324,6 +324,8 @@ fill_slot = function(_slot,_id){
 roll_dice = function(){
 	if (state != UPGRADE_STATE.ROLLING)
 	{
+		// Destroy cursor
+		if (instance_exists(cursor)) instance_destroy(cursor);
 		var _sfx = roll_sound_playing
 		if (audio_exists(_sfx)) && (audio_is_playing(_sfx))
 		{
@@ -354,7 +356,6 @@ upgrade_start = function(){
 
 upgrade_end = function(){
 	state = UPGRADE_STATE.OFF;
-	if (instance_exists(cursor)) instance_destroy(cursor);
 	room_change(o_Controller.get_next_room());
 }
 

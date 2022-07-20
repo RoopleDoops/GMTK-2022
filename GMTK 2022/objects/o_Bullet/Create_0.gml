@@ -12,6 +12,7 @@ water_part_num = 8;
 splash_range = 48;
 splash_knock = 4;
 knock = 0;
+col_yoffset = 8;
 
 bullet_destroy = function(){
 	bullet_splash_damage();
@@ -58,13 +59,15 @@ perform_step = function(){
 	var _y_move = _array[AXIS.Y];
 	// Collision
 	// X
-		if (!collision_point_tile_impassable(x+_x_move,y,LAYER_WALL_TILES))
+		if (!collision_point_tile_impassable(x+_x_move,y+col_yoffset,LAYER_WALL_TILES))
+		|| (!collision_point_tile_impassable(x+_x_move,y,LAYER_WALL_TILES))
 		{
 			x += _x_move;
 		}
 		else
 		{
-			while (!collision_point_tile_impassable(x+sign(_x_move),y,LAYER_WALL_TILES))
+			while (!collision_point_tile_impassable(x+sign(_x_move),y+col_yoffset,LAYER_WALL_TILES))
+			|| (!collision_point_tile_impassable(x+sign(_x_move),y,LAYER_WALL_TILES))
 			{
 				x += sign(_x_move);
 			}
@@ -72,13 +75,15 @@ perform_step = function(){
 			bullet_destroy();
 		}
 	// Y
-		if (!collision_point_tile_impassable(x,y+_y_move,LAYER_WALL_TILES))
+		if (!collision_point_tile_impassable(x,y+_y_move+col_yoffset,LAYER_WALL_TILES))
+		|| (!collision_point_tile_impassable(x,y+_y_move,LAYER_WALL_TILES))
 		{
 			y += _y_move;
 		}
 		else
 		{
-			while (!collision_point_tile_impassable(x,y+sign(_y_move),LAYER_WALL_TILES))
+			while (!collision_point_tile_impassable(x,y+sign(_y_move)+col_yoffset,LAYER_WALL_TILES))
+			|| (!collision_point_tile_impassable(x,y+sign(_y_move),LAYER_WALL_TILES))
 			{
 				y += sign(_y_move);
 			}

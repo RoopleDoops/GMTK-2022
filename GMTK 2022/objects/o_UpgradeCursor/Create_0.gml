@@ -9,8 +9,8 @@ get_input = function(){
 	key_click = mouse_check_button(mb_left);
 	key_clicked = mouse_check_button_released(mb_left);
 	
-	x = floor(mouse_x);
-	y = floor(mouse_y);
+	x = round(mouse_x);
+	y = round(mouse_y);
 }
 
 perform_step = function(){
