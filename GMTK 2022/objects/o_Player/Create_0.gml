@@ -22,7 +22,7 @@ o_UIManager.update_health();
 // Shooting
 gun_sfx = o_UpgradeManager.get_sfx();
 gun_sound_play = noone;
-gun = 5;//o_UpgradeManager.upgrade_get_value(U_A1.GUN);
+gun = o_UpgradeManager.upgrade_get_value(U_A1.GUN);
 switch (gun)
 {
 	case 1: // SQUIRT GUN

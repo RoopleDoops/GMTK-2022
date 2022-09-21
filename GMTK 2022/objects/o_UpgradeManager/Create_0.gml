@@ -346,11 +346,12 @@ roll_dice = function(){
 
 
 upgrade_start = function(){
-	upgrade_array_reset(false); // do not reset slots
+	//upgrade_array_reset(false); // do not reset slots
+	upgrade_array_reset();
 	create_player_model();
 	state = UPGRADE_STATE.ON;
 	create_dice();
-	remember_dice();
+	//remember_dice();
 	cursor = instance_create_depth(floor(mouse_x),floor(mouse_y),DEPTH_CURSOR,o_UpgradeCursor);
 }
 
@@ -446,22 +447,22 @@ create_dice = function(){
 		instance_create_layer(_x,_y,"L_Dice",o_Dice);
 	}
 	// Auto assign once at 6 dice
-	//if (global.dice_num == 6)
-	//{
-	//	var _dicenum = instance_number(o_Dice);
-	//	for (var _i = 0; _i < _dicenum; _i += 1)
-	//	{
-	//		_dice = instance_find(o_Dice,_i);
-	//		var _x = get_slot_x(_i);
-	//		var _y = get_slot_y(_i);
-	//		with (_dice)
-	//		{
-	//			x = _x;
-	//			y = _y;
-	//			dice_drop();
-	//		}
-	//	}
-	//}
+	if (global.dice_num == 6)
+	{
+		var _dicenum = instance_number(o_Dice);
+		for (var _i = 0; _i < _dicenum; _i += 1)
+		{
+			_dice = instance_find(o_Dice,_i);
+			var _x = get_slot_x(_i);
+			var _y = get_slot_y(_i);
+			with (_dice)
+			{
+				x = _x;
+				y = _y;
+				dice_drop();
+			}
+		}
+	}
 #endregion
 }
 
